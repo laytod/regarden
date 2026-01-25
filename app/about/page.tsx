@@ -10,22 +10,24 @@ export default function About() {
         <h1 className="text-5xl font-bold text-primary-400 mb-6">{pageTitle}</h1>
       </div>
 
-      <section className="mb-12 relative rounded-lg overflow-hidden">
+      <section className="mb-12 relative h-72 sm:h-80 md:h-96 rounded-lg overflow-hidden">
         {mission.image && (
           <>
             <img
               src={mission.image}
               alt="ReGarden community members at the garden"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover object-[center_75%] md:object-center scale-[1.6] md:scale-100 origin-[center_75%] md:origin-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 to-transparent" />
           </>
         )}
-        <div className="relative flex flex-col justify-end min-h-80 p-8">
-          <h2 className="text-3xl font-semibold text-primary-400 mb-4">
+        <div className="absolute top-1/3 md:top-auto bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 flex flex-col justify-end">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-primary-400 mb-2 sm:mb-4">
             {mission.heading}
           </h2>
-          <p className="text-lg text-slate-200 leading-relaxed">{mission.text}</p>
+          <p className="text-sm sm:text-base md:text-lg text-slate-200 leading-relaxed">
+            {mission.text}
+          </p>
         </div>
       </section>
 

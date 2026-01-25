@@ -42,15 +42,15 @@ export default function Team() {
               ))}
             </div>
             {(quote.text || quote.attribution) && (
-              <div className="absolute bottom-0 left-0 right-0 flex justify-center">
-                <div className="bg-black/40 backdrop-blur-sm p-2 rounded-lg border border-white/10 max-w-xl">
+              <div className="absolute bottom-0 left-0 right-0 flex justify-center max-md:pb-1 md:pb-2 px-2">
+                <div className="max-w-xl">
                   {quote.text && (
-                    <p className="text-white/90 text-lg italic text-center">
+                    <p className="text-white/90 max-md:text-base md:text-xl italic text-center leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                       &ldquo;{quote.text}&rdquo;
                     </p>
                   )}
                   {quote.attribution && (
-                    <p className="text-purple-300 mt-1 text-sm text-right font-semibold">
+                    <p className="text-purple-300 max-md:mt-0 max-md:text-sm md:mt-0.5 md:text-base text-right font-semibold drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                       {quote.attribution}
                     </p>
                   )}
