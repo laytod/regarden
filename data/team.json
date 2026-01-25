@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "name": "Katie",
+    "role": "President",
+    "email": "katie@regardenus.org",
+    "phone": "",
+    "bio": "In the early days of 2021, Katie was working in a management salaried position in construction and dreaming of her wedding day just a few months away. What more could she want? Soon she would suffer a horrific open-ended trauma that changed the trajectory of her life. After wrestling with anger and grief for the following year she met God in the garden and the vision of ReGarden was formed. A place where both life and death came together to create something fresh and beautiful, where healing takes place. In search of cultivating this dream, Katie joined the Sumner County Master Gardener's volunteer program and quickly changed professions to apprentice as a local tree nursery foreman. She also began learning how to harvest and process food from her own gardens and quickly grew hungry to share this knowledge with others. Soon, Katie would come across a Facebook post from Treasure Spurgeon wanting to find space for planting a community garden. Having the network and resources, Katie connected Treasure with the SCMG and met at the Westmoreland Public Library in town and thought her mission was complete. Little did she know that she would be appointed as the project manager of the Westmoreland Community Garden, and this would begin to form into something greater. Classes formed, community came together, and future plans began to blossom. Suspended between the two non-profit organizations of SCMG and Westmoreland Library quickly became financially burdensome, and Katie moved to make ReGarden legally not-for-profit. Katie has lived in Davidson and Sumner Counties her entire life. She is married to carpenter and musician, TJ Martinek, who also selflessly volunteers to help bring the vision and structure of ReGarden to fruition. Building their life in Westmoreland for more than 10 years, they have agreed to bloom where they have been planted and continue to serve the community to this day.",
+    "image": "/images/team/katie.jpg",
+    "socialLinks": {}
+  },
+  {
+    "id": "2",
+    "name": "Tricia",
+    "role": "Secretary",
+    "email": "tricia@regardenus.org",
+    "phone": "",
+    "bio": "I am a retired Information Technology Executive with extensive experience in both the public and private sector in leadership, business process automation, software development, project management, and technology infrastructure. While growing my career, I finished by bachelors in business administration and an MBA in Electronic Commerce. Retirement has presented many opportunities to serve our community. One of my first goals in retirement was completing the Master Gardener program in 2021. I was fortunate to jump right in and serve as a Project Director and as President of the organization in 2024 and 2025. I was honored to join the Board of ReGarden and serve as Secretary. In addition to gardening, I serve on the Care Team at Northfield Church and actively involved in our Widows ministry. My husband Steve and I live on a farm in Westmoreland in our retirement log cabin. In my spare time I love to garden, preserve the garden bounty, quilt, knit, and read. We have three rescue dogs, two cats and three miniature donkeys that keep us on our toes.",
+    "image": "/images/team/tricia.jpg",
+    "socialLinks": {}
+  },
+  {
+    "id": "3",
+    "name": "Kevin",
+    "role": "Treasurer",
+    "email": "kevin@regardenus.org",
+    "phone": "",
+    "bio": "Kevin's professional career as a Certificate Public Accountant for over 35 years began in public accounting but the majority of his career has been as Chief Financial Officer for private industry. He believes in using his accounting experience to help others which has led to volunteer rolls as Treasurer at his church, several not-for-profit organizations, homeowner's associations, and now ReGarden. Kevin is also passionate about serving and helping children so he and his wife, Buffy, founded and lead the Sumner County chapter of Sleep in Heavenly Peace which builds and delivers beds to kids who do not have beds of their own. A Tennessee native who has lived in Tennessee most of his life, he and his wife now call Gallatin home.",
+    "image": "/images/team/kevin.jpg",
+    "socialLinks": {}
+  },
+  {
+    "id": "4",
+    "name": "Treasure",
+    "role": "Board Member/Garden Consultant",
+    "email": "treasure@regardenus.org",
+    "phone": "",
+    "bio": "Treasure Spurgeon is a co-founder of ReGarden. Originally from Westmoreland, TN, she returned in 2022 to care take her grandmother while investing in community building in her hometown. Since beginning her farming journey in 2011 as an intern at Long Hungry Creek Farm, she has gained extensive hands-on experience in organic farming, seed work, and wildcrafting—holding roles with Siskiyou Seeds, Strictly Medicinal Seeds, and NatureSpirit Herbs in Oregon. She now works at Flourishing Herbs and River Cottage Farm in Adolphus, KY. Treasure plays a key role in community engagement for ReGarden, using her local roots to connect with residents, spread awareness, and inspire volunteer involvement. Her work reflects a deep commitment to preserving traditional knowledge, strengthening local food systems, and fostering community connections through land-based education.",
+    "image": "/images/team/treasure.jpg",
+    "socialLinks": {}
+  },
+  {
+    "id": "5",
+    "name": "Stacy",
+    "role": "Board Member/Digital Marketing Director",
+    "email": "stacy@regardenus.org",
+    "phone": "",
+    "bio": "Stacey is a seasoned professional with a quarter of a century's experience in Residential Property Management. But it's not just property she has a knack for managing. Stacey has a green thumb and a heart that beats for gardening and preserving food. Her journey into the world of gardening sprouted from a desire to provide healthy food options for her family. It blossomed into a love for preserving the traditions of our ancestors, traditions that risk being forgotten if not nurtured. Stacey believes in the power of shared knowledge. She finds joy in teaching budding gardeners the ropes and also learning from their experiences. Despite being in an urban setting with limited space, she has found innovative ways to cultivate her garden. She's a testament to the fact that you don't need a sprawling backyard to grow your own food. With a bit of creativity and a lot of love, even the smallest urban garden can yield a bountiful harvest.",
+    "image": "/images/team/stacy.jpg",
+    "socialLinks": {}
+  }
+]

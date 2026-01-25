@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 243, 244, 246;
+  --background-start-rgb: 30, 41, 59;
+  --background-end-rgb: 15, 23, 42;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      rgb(var(--background-start-rgb)),
+      rgb(var(--background-end-rgb))
+    );
+  min-height: 100vh;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* FullCalendar Custom Styles - Light Green with Purple Buttons */
+.fc-event {
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.fc-event.event-type-workshop {
+  background-color: #7b2d8e;  /* Logo purple */
+  border-color: #7b2d8e;
+}
+
+.fc-event.event-type-event {
+  background-color: #1a5f2a;  /* Logo dark green */
+  border-color: #1a5f2a;
+}
+
+.fc-event.event-type-meeting {
+  background-color: #a855f7;  /* Light purple */
+  border-color: #a855f7;
+  color: white !important;
+}
+
+.fc-event:hover {
+  opacity: 0.9;
+}
+
+.fc {
+  color: rgb(30, 50, 35);
+}
+
+.fc-toolbar-title {
+  color: #1a5f2a !important;  /* Logo dark green */
+}
+
+.fc-col-header-cell {
+  background-color: rgb(200, 230, 205) !important;
+  color: rgb(30, 50, 35) !important;
+}
+
+.fc-daygrid-day {
+  background-color: rgb(200, 230, 205) !important;
+}
+
+.fc-day {
+  background-color: rgb(200, 230, 205) !important;
+  border-color: rgba(45, 134, 89, 0.3) !important;
+}
+
+.fc-daygrid-day-number {
+  color: rgb(30, 50, 35) !important;
+}
+
+.fc-button {
+  background-color: #a855f7 !important;
+  border-color: #a855f7 !important;
+  color: white !important;
+}
+
+.fc-button:hover {
+  background-color: #9333ea !important;
+  border-color: #9333ea !important;
+}
+
+.fc-button-primary:not(:disabled):active,
+.fc-button-primary:not(:disabled).fc-button-active {
+  background-color: #7e22ce !important;
+  border-color: #7e22ce !important;
+}
+
+.fc-today-button {
+  background-color: rgb(180, 215, 185) !important;
+  border-color: rgba(168, 85, 247, 0.4) !important;
+  color: rgb(30, 50, 35) !important;
+}
+
+.fc-prev-button,
+.fc-next-button {
+  color: white !important;
+}
+
+.fc-scrollgrid {
+  border-color: rgba(45, 134, 89, 0.3) !important;
+}
+
+/* Form input dark theme */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+  color-scheme: dark;
+}
+
+/* Calendar dark theme enhancements */
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border-color: rgba(45, 134, 89, 0.3) !important;
+}
+
+.fc-daygrid-day-frame {
+  background-color: rgb(220, 240, 225) !important;
+}
+
+/* Today's date highlight */
+.fc-day-today {
+  background-color: rgba(124, 179, 66, 0.25) !important;
+}
+
+.fc-day-today .fc-daygrid-day-frame {
+  background-color: rgba(124, 179, 66, 0.3) !important;
+}
