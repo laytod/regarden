@@ -58,14 +58,14 @@ export default async function AdminDashboard() {
         </Link>
 
         <Link
-          href="/events"
+          href="/admin/events"
           className="bg-slate-800 p-6 rounded-lg border border-purple-500/30 hover:border-primary-500 transition-colors"
         >
           <h2 className="text-xl font-semibold text-primary-400 mb-2">
             Events Calendar
           </h2>
           <p className="text-slate-300">
-            Manage events and calendar
+            Add, edit, and manage events
           </p>
         </Link>
       </div>
