@@ -22,7 +22,8 @@ See `__tests__/README.md` for structure, conventions, and how to add new tests.
 - ✅ Content management system (Phase 2 - COMPLETE)
 - ⏳ Image upload/management (Phase 3)
 - ⏳ Password reset functionality (Phase 4)
-- ⏳ Polish & security hardening (Phase 5)
+- ⏳ Change tracking & audit log (Phase 5)
+- ⏳ Polish & security hardening (Phase 6)
 
 ---
 
@@ -299,7 +300,142 @@ __tests__/
 
 ---
 
-## Phase 5: Polish & Security Hardening ⏳ TODO
+## Phase 5: Change Tracking & Audit Log ⏳ TODO
+
+### Goals
+- Track all changes made through admin panel
+- Attribute each change to specific user
+- Display change history in read-only audit log
+- Maintain immutable change records
+
+### Implementation Steps
+
+1. **Create Change Log Data Structure**
+   - Create `data/change-log.json` to store change records
+   - Structure: Array of change log entries with id, timestamp, user info, change type, and details
+   - Auto-create file if missing
+
+2. **Create Change Log Library**
+   - `lib/change-log.ts` - Functions to record and retrieve changes
+   - `recordChange()` - Add new change entry with auto-generated ID and timestamp
+   - `getChangeLog()` - Get recent changes (with optional limit, user filter, type filter)
+   - Handle file read/write operations
+
+3. **Update Content API to Record Changes**
+   - Modify `PUT /api/admin/content` handler
+   - After successful update, call `recordChange()` with user info from session
+   - Record which sections were changed (compare old vs new values)
+   - Store change details with section paths
+
+4. **Update Image API to Record Changes**
+   - Modify `POST /api/admin/images` handler - Record image uploads
+   - Modify `DELETE /api/admin/images` handler - Record image deletions
+   - Extract user info from session and record change with image path
+
+5. **Create Change Log API Endpoint**
+   - `GET /api/admin/change-log` - Retrieve change log entries
+   - Support query params: `?limit=50&userId=xxx&type=content`
+   - Protected route (requires authentication)
+   - Return array of change log entries
+
+6. **Create Change Log UI Component**
+   - `components/Admin/ChangeLog.tsx` - Display change log entries
+   - Show user name/email, formatted timestamp, change type badge, change details
+   - Read-only display (no edit/delete functionality)
+   - Optional: Pagination or "load more" for large logs
+   - Optional: Filters by user or change type
+
+7. **Create Change Log Admin Page**
+   - `/admin/change-log` page - View change history
+   - Protected route (requires authentication)
+   - Display ChangeLog component
+   - Page title: "Change History" or "Audit Log"
+
+8. **Update Admin Dashboard**
+   - Add new card linking to change log page
+   - Update dashboard navigation
+
+9. **Update Types**
+   - Add `ChangeType` type: `'content' | 'image_upload' | 'image_delete'`
+   - Add `ChangeLogEntry` interface to `lib/types.ts`
+
+10. **Write Phase 6 tests (required before marking complete)**
+    - Unit tests for `lib/change-log.ts` (record, retrieve, filter)
+    - API tests for `GET /api/admin/change-log` (auth, query params, responses)
+    - Component tests for `ChangeLog` (render, formatting, read-only)
+    - Update existing content/images API tests to verify change recording
+    - Document new test files in `__tests__/README.md`
+
+### Data Structure
+
+```typescript
+interface ChangeLogEntry {
+  id: string                    // Unique ID (timestamp-based)
+  timestamp: string             // ISO 8601 timestamp
+  userId: string                // User ID from session
+  userEmail: string             // User email
+  userName: string              // User name
+  changeType: 'content' | 'image_upload' | 'image_delete'
+  details: {
+    // For content changes:
+    section?: string            // e.g., "homepage.hero.heading"
+    oldValue?: unknown          // Previous value (if available)
+    newValue?: unknown          // New value
+    
+    // For image changes:
+    imagePath?: string          // Image path for upload/delete
+    action?: string             // "uploaded" or "deleted"
+  }
+}
+```
+
+### Files to Create
+
+```
+lib/
+  └── change-log.ts              # Change log utilities
+app/api/admin/change-log/
+  └── route.ts                   # Change log API endpoint
+app/admin/change-log/
+  └── page.tsx                   # Change log admin page
+components/Admin/
+  └── ChangeLog.tsx              # Change log display component
+data/
+  └── change-log.json            # Change log storage (auto-created)
+__tests__/
+  ├── lib/change-log.test.ts
+  ├── api/admin/change-log.test.ts
+  └── components/Admin/ChangeLog.test.tsx
+```
+
+### Files to Modify
+
+```
+lib/types.ts                     # Add ChangeLogEntry and ChangeType types
+app/api/admin/content/route.ts   # Record changes on PUT
+app/api/admin/images/route.ts    # Record changes on POST/DELETE
+app/admin/page.tsx               # Add change log link
+__tests__/api/admin/content.test.ts  # Test change recording
+__tests__/api/admin/images.test.ts  # Test change recording
+```
+
+### Security Considerations
+
+- Change log entries are read-only (no API to modify/delete)
+- Only authenticated admins can view change log
+- User information comes from session (trusted source)
+- Change log file stored in `data/` directory (not publicly accessible)
+
+### User Experience
+
+- Change log accessible from admin dashboard
+- Clear, readable format showing who changed what and when
+- Helps with accountability and debugging
+- Non-editable to maintain audit trail integrity
+
+---
+
+## Phase 6: Polish & Security Hardening ⏳ TODO
 
 ### Goals
 - Rate limiting on auth endpoints
@@ -336,7 +472,7 @@ __tests__/
    - Error logging
    - User-friendly error pages
 
-6. **Write Phase 5 tests (required before marking complete)**
+6. **Write Phase 6 tests (required before marking complete)**
    - Unit tests for `lib/rate-limit.ts` and any new security helpers
    - API tests for rate-limited auth endpoints and `/api/admin/users`
    - Component tests for `UserManager` (list, create, edit, delete, roles)
@@ -403,6 +539,7 @@ __tests__/
 - Password reset tokens: `data/password-reset-tokens.json`
 - Content: `data/content.json` (Phase 2)
 - Images: `/public/images/` directory
+- Change log: `data/change-log.json` (Phase 5)
 
 ### Testing Strategy
 - **Automated (required):** Each phase must have its test suite written and passing before that phase is complete. Run `npm test` (see **Testing Policy** and **Phase Completion Checklist** above).
@@ -449,7 +586,8 @@ regarden/
 │   ├── admin/
 │   │   ├── content/         # Phase 2
 │   │   ├── images/          # Phase 3
-│   │   ├── users/           # Phase 5
+│   │   ├── change-log/      # Phase 5
+│   │   ├── users/           # Phase 6
 │   │   ├── reset-password/  # Phase 4
 │   │   ├── login/
 │   │   ├── layout.tsx
@@ -462,18 +600,21 @@ regarden/
 │       └── admin/
 │           ├── content/         # Phase 2
 │           ├── images/          # Phase 3
-│           └── users/           # Phase 5
+│           ├── change-log/      # Phase 5
+│           └── users/           # Phase 6
 ├── components/
 │   ├── Admin/
 │   │   ├── ContentEditor.tsx    # Phase 2
 │   │   ├── ImageUploader.tsx    # Phase 3
 │   │   ├── ImageManager.tsx     # Phase 3
-│   │   └── UserManager.tsx      # Phase 5
+│   │   ├── ChangeLog.tsx        # Phase 5
+│   │   └── UserManager.tsx      # Phase 6
 │   └── Auth/
 │       └── ResetPasswordForm.tsx # Phase 4
 ├── data/
 │   ├── users.json
 │   ├── content.json              # Phase 2
+│   ├── change-log.json           # Phase 5
 │   └── password-reset-tokens.json
 ├── lib/
 │   ├── auth.ts
@@ -481,6 +622,8 @@ regarden/
 │   ├── auth-setup.ts
 │   ├── content.ts                # Phase 2
 │   ├── images.ts                  # Phase 3
+│   ├── change-log.ts              # Phase 5
+│   ├── rate-limit.ts              # Phase 6
 │   ├── security.ts
 │   ├── types.ts
 │   └── validation.ts
@@ -492,10 +635,11 @@ regarden/
 ## Next Steps
 
 1. ✅ **Phase 1 Complete** - Authentication foundation is done
-2. ⏳ **Phase 2** - Start content management system
+2. ✅ **Phase 2 Complete** - Content management system is done
 3. ⏳ **Phase 3** - Add image management
 4. ⏳ **Phase 4** - Implement password reset
-5. ⏳ **Phase 5** - Polish and security hardening
+5. ⏳ **Phase 5** - Change tracking & audit log
+6. ⏳ **Phase 6** - Polish and security hardening
 
 ---
 
