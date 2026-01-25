@@ -20,16 +20,26 @@ export default function Donate() {
 
       <section className="mb-12 relative rounded-lg overflow-hidden">
         {heroImage && (
-          <>
+          <div className="relative min-h-[34vh] w-full md:min-h-0 md:aspect-video">
             <Image
               src={heroImage}
               alt="ReGarden community garden"
-              width={896}
-              height={504}
-              className="w-full h-auto object-cover"
+              fill
+              className="object-cover"
               priority
+              sizes="(max-width: 768px) 100vw, 896px"
             />
-            <div className="absolute inset-0 bg-black/30 flex flex-col justify-start items-center text-center p-6">
+            {/* Mobile: overlay with heading + description only; box pb matches gap below box */}
+            <div className="md:hidden absolute inset-0 bg-black/30 flex flex-col justify-start items-center text-center pt-3 px-4 pb-3 overflow-y-auto">
+              <h2 className="text-3xl font-semibold text-purple-300 mb-2">
+                {howDonationHelps.heading}
+              </h2>
+              <div className="bg-black/30 backdrop-blur-sm px-4 py-3 rounded-lg border border-white/10 max-w-2xl">
+                <p className="text-white/90">{howDonationHelps.description}</p>
+              </div>
+            </div>
+            {/* Desktop: full overlay with heading + description + cards */}
+            <div className="hidden md:flex absolute inset-0 bg-black/30 flex-col justify-start items-center text-center p-6 overflow-y-auto">
               <h2 className="text-3xl font-semibold text-purple-300 mb-4">
                 {howDonationHelps.heading}
               </h2>
@@ -51,9 +61,28 @@ export default function Donate() {
                 ))}
               </div>
             </div>
-          </>
+          </div>
         )}
       </section>
+
+      {heroImage && (
+        <div className="md:hidden mt-4 mb-12">
+          <div className="grid grid-cols-1 gap-4 px-4">
+            {benefitCards.map((card, i) => (
+              <div
+                key={i}
+                className="bg-black/30 backdrop-blur-sm p-4 rounded-lg border border-white/10 text-center"
+              >
+                <div className="text-3xl mb-2 flex justify-center">{card.icon}</div>
+                <h3 className="text-lg font-semibold text-primary-400 mb-1">
+                  {card.title}
+                </h3>
+                <p className="text-white/90 text-sm">{card.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <section className="bg-slate-700/60 p-8 rounded-lg shadow-lg border border-purple-500/30">
         <h2 className="text-3xl font-semibold text-primary-400 mb-4">
