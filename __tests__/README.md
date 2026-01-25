@@ -2,7 +2,7 @@
 
 ## Overview
 
-This test suite covers Phase 1: Authentication Foundation functionality to ensure we don't break things as we move forward.
+This test suite covers Phase 1 (Authentication Foundation) and Phase 2 (Content Management System) to ensure we don't break things as we move forward.
 
 **Policy (see `ADMIN_PANEL_IMPLEMENTATION_PLAN.md`):** Tests must be written for each phase before that phase is marked complete. Each phase has a **Tests** section in the plan; implement those tests and keep this README updated as you add phases.
 
@@ -32,11 +32,22 @@ npm run test:coverage
   - Login validation
   - User creation validation
   - Password reset validation
+  - Content update schema (partial updates, reject empty)
 
 - **`lib/security.test.ts`** - Tests for security utilities
   - Password reset token generation
   - Token verification
   - Token expiration handling
+
+- **`lib/content.test.ts`** - Tests for content utilities
+  - getContent: read, parse, defaults on error, normalize partial
+  - updateContent: merge partial, write, replace arrays
+
+### API Tests
+
+- **`api/admin/content.test.ts`** - Tests for content API
+  - GET: 401 when unauthenticated, 200 + content when authenticated
+  - PUT: 401 when unauthenticated, 400 on invalid body, 200 on valid update
 
 ### Component Tests
 
@@ -46,6 +57,16 @@ npm run test:coverage
   - Login submission
   - Error handling
   - Success redirect
+
+- **`components/Admin/ContentSection.test.tsx`** - Tests for content section
+  - Renders title and children
+  - Optional description
+
+- **`components/Admin/ContentEditor.test.tsx`** - Tests for content editor
+  - Loading state
+  - Form render after fetch
+  - Error on fetch failure
+  - Save (PUT) and success message
 
 ## Test Coverage Goals
 

@@ -4,6 +4,7 @@ import {
   passwordResetRequestSchema,
   passwordResetSchema,
   changePasswordSchema,
+  contentUpdateSchema,
 } from '@/lib/validation'
 
 describe('Validation Schemas', () => {
@@ -125,6 +126,31 @@ describe('Validation Schemas', () => {
         newPassword: 'short',
       }
       expect(() => changePasswordSchema.parse(invalidData)).toThrow()
+    })
+  })
+
+  describe('contentUpdateSchema', () => {
+    it('should validate partial homepage update', () => {
+      const validData = {
+        homepage: {
+          hero: { heading: 'New Heading' },
+        },
+      }
+      expect(() => contentUpdateSchema.parse(validData)).not.toThrow()
+    })
+
+    it('should validate partial about update', () => {
+      const validData = {
+        about: {
+          pageTitle: 'About Us',
+          contact: { email: 'contact@test.com' },
+        },
+      }
+      expect(() => contentUpdateSchema.parse(validData)).not.toThrow()
+    })
+
+    it('should reject empty object', () => {
+      expect(() => contentUpdateSchema.parse({})).toThrow()
     })
   })
 })
