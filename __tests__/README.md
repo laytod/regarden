@@ -2,7 +2,7 @@
 
 ## Overview
 
-This test suite covers Phase 1 (Authentication Foundation) and Phase 2 (Content Management System) to ensure we don't break things as we move forward.
+This test suite covers Phase 1 (Authentication Foundation), Phase 2 (Content Management System), and Phase 3 (Image Management) to ensure we don't break things as we move forward.
 
 **Policy (see `ADMIN_PANEL_IMPLEMENTATION_PLAN.md`):** Tests must be written for each phase before that phase is marked complete. Each phase has a **Tests** section in the plan; implement those tests and keep this README updated as you add phases.
 
@@ -43,11 +43,23 @@ npm run test:coverage
   - getContent: read, parse, defaults on error, normalize partial
   - updateContent: merge partial, write, replace arrays
 
+- **`lib/images.test.ts`** - Tests for image utilities (Phase 3)
+  - validateImageFile: accept JPEG/PNG/GIF/WebP, reject invalid type/size
+  - isAllowedImagePath: allow /images/*, reject traversal and invalid paths
+  - listImages: scan dir, subdirs, filter by extension
+  - saveImage: write buffer, subfolder, sanitize
+  - deleteImage: unlink, path validation, not found
+
 ### API Tests
 
 - **`api/admin/content.test.ts`** - Tests for content API
   - GET: 401 when unauthenticated, 200 + content when authenticated
   - PUT: 401 when unauthenticated, 400 on invalid body, 200 on valid update
+
+- **`api/admin/images.test.ts`** - Tests for images API (Phase 3)
+  - GET: 401 when unauthenticated, 200 + images when authenticated
+  - POST: 401, 400 no file / validation fail, 200 upload success
+  - DELETE: 401, 400 missing/invalid path, 404 not found, 200 success
 
 ### Component Tests
 
@@ -68,9 +80,21 @@ npm run test:coverage
   - Error on fetch failure
   - Save (PUT) and success message
 
+- **`components/Admin/ImageUploader.test.tsx`** - Tests for image upload (Phase 3)
+  - Renders upload section, subfolder input, drop zone
+  - Uploading state, onUploadSuccess, onUploadError
+
+- **`components/Admin/ImageManager.test.tsx`** - Tests for image manager (Phase 3)
+  - Loading, gallery after fetch, error + retry
+
+- **`components/Admin/ImagePicker.test.tsx`** - Tests for image picker (Phase 3)
+  - Renders label, input, choose button; value via input
+  - Modal open/fetch, select image, close
+
 ## Test Coverage Goals
 
 - **Phase 1**: Aim for 80%+ coverage of authentication-related code
+- **Phase 3**: Aim for 80%+ coverage of image-related code (lib/images, API, components)
 - Focus on critical paths:
   - User authentication
   - Password security

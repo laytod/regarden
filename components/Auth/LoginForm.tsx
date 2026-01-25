@@ -40,6 +40,8 @@ export default function LoginForm() {
       } else if (result?.ok) {
         // Wait a moment for the session cookie to be set
         await new Promise(resolve => setTimeout(resolve, 100))
+        // Use window.location.origin to ensure we redirect to the current origin
+        // (localhost or ngrok) instead of a hardcoded URL
         router.replace('/admin')
       } else {
         setError('Login failed. Please try again.')

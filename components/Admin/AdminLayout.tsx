@@ -55,10 +55,24 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <header className="bg-slate-800 border-b border-purple-500/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
+            <div className="flex items-center gap-6">
               <Link href="/admin" className="text-2xl font-bold text-primary-400">
                 ReGarden Admin
               </Link>
+              <nav className="flex gap-3">
+                <Link
+                  href="/admin/content"
+                  className="text-slate-300 hover:text-primary-400 transition-colors"
+                >
+                  Content
+                </Link>
+                <Link
+                  href="/admin/images"
+                  className="text-slate-300 hover:text-primary-400 transition-colors"
+                >
+                  Images
+                </Link>
+              </nav>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-slate-300">

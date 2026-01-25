@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import ContentSection from './ContentSection'
+import ImagePicker from './ImagePicker'
 import type { SiteContent } from '@/lib/types'
 
 type PageKey = 'homepage' | 'about' | 'team' | 'volunteer' | 'donate'
@@ -191,8 +192,8 @@ export default function ContentEditor() {
                 }))
               }
             />
-            <Field
-              label="Background image path"
+            <ImagePicker
+              label="Background image"
               value={content.homepage.hero.backgroundImage}
               onChange={(v) =>
                 update('homepage', (p) => ({
@@ -365,8 +366,8 @@ export default function ContentEditor() {
                 }))
               }
             />
-            <Field
-              label="Image path"
+            <ImagePicker
+              label="Image"
               value={content.about.values.image}
               onChange={(v) =>
                 update('about', (p) => ({
@@ -473,9 +474,9 @@ export default function ContentEditor() {
           </ContentSection>
           <ContentSection title="Gallery images" description="Three image paths">
             {content.team.galleryImages.map((img, i) => (
-              <Field
+              <ImagePicker
                 key={i}
-                label={`Image ${i + 1} path`}
+                label={`Image ${i + 1}`}
                 value={img}
                 onChange={(v) =>
                   update('team', (p) => {
@@ -542,8 +543,8 @@ export default function ContentEditor() {
               onChange={(v) => update('volunteer', (p) => ({ ...p, description: v }))}
               multiline
             />
-            <Field
-              label="Background image path"
+            <ImagePicker
+              label="Background image"
               value={content.volunteer.backgroundImage}
               onChange={(v) => update('volunteer', (p) => ({ ...p, backgroundImage: v }))}
             />
@@ -663,8 +664,8 @@ export default function ContentEditor() {
               value={content.donate.pageTitle}
               onChange={(v) => update('donate', (p) => ({ ...p, pageTitle: v }))}
             />
-            <Field
-              label="Hero image path"
+            <ImagePicker
+              label="Hero image"
               value={content.donate.heroImage}
               onChange={(v) => update('donate', (p) => ({ ...p, heroImage: v }))}
             />

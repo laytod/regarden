@@ -12,6 +12,7 @@ This document outlines the complete plan for implementing a secure admin panel f
 - **Order of work:** Write or extend tests as you implement each feature (test-first or test-alongside). Do not mark a phase complete until its tests exist and pass.
 - **Coverage:** Aim for 80%+ coverage of phase-specific code. Focus on critical paths: APIs, validation, security, and key UI flows.
 - **Running tests:** `npm test` | `npm run test:watch` | `npm run test:coverage`
+- **Handling failing tests:** When tests fail, **do not rewrite tests to make them pass**. A failing test indicates a real problem in the codebase that needs investigation and fixing. Go through failing tests iteratively together, identify the root cause, and fix the underlying issue in the implementation code. Only modify tests if they are incorrectly written (e.g., testing the wrong thing), not because the implementation doesn't match the test.
 
 See `__tests__/README.md` for structure, conventions, and how to add new tests.
 
