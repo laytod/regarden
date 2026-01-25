@@ -2,6 +2,12 @@ import type { NextAuthConfig } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { getUserByEmail, verifyPassword } from './auth'
 
+// Source auth base URL from .env.local. APP_URL overrides NEXTAUTH_URL when set
+// (e.g. https://your-subdomain.ngrok-free.dev for mobile testing).
+if (process.env.APP_URL) {
+  process.env.NEXTAUTH_URL = process.env.APP_URL
+}
+
 export const authOptions: NextAuthConfig = {
   providers: [
     CredentialsProvider({

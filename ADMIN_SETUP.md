@@ -20,6 +20,10 @@ Create a `.env.local` file in the root directory:
 # Run: openssl rand -base64 32
 NEXTAUTH_SECRET=your-generated-secret-key-here
 NEXTAUTH_URL=http://localhost:3000
+
+# Optional: override base URL for auth redirects (e.g. ngrok for mobile testing).
+# When set, redirects use this domain instead of NEXTAUTH_URL.
+# APP_URL=https://lurid-holly-coercive.ngrok-free.dev
 ```
 
 ### 2. Create Your First Admin User
