@@ -1,0 +1,153 @@
+{
+  "homepage": {
+    "hero": {
+      "heading": "Growing Gardens Growing Communities",
+      "backgroundImage": "/images/background/page1-003.jpg",
+      "missionHeading": "Our Mission",
+      "missionText": "To provide opportunities for local residents to garden, grow, and harvest produce, to promote education about sustainable local food production and gardening techniques as well as offer educational workshops for all ages on topics such as nutrition and healthy food preparation."
+    },
+    "featureCards": [
+      {
+        "icon": "🌱",
+        "title": "Community Gardens",
+        "description": "From saved seeds to community harvests, building food security together—from the ground up."
+      },
+      {
+        "icon": "👥",
+        "title": "Education",
+        "description": "Our workshops and programs teach sustainable gardening practices to people of all ages and skill levels."
+      },
+      {
+        "icon": "❤️",
+        "title": "Community",
+        "description": "We bring neighbors together, building stronger communities through shared experiences in the garden."
+      }
+    ],
+    "newsletter": {
+      "heading": "Stay Updated",
+      "description": "Subscribe to our newsletter to receive updates about events, workshops, and ways to get involved."
+    }
+  },
+  "about": {
+    "pageTitle": "About ReGarden",
+    "mission": {
+      "heading": "Our Mission",
+      "text": "To provide opportunities for local residents to garden, grow, and harvest produce, to promote education about sustainable local food production and gardening techniques as well as offer educational workshops for all ages on topics such as nutrition and healthy food preparation.",
+      "image": "/images/IMG_0857.jpg"
+    },
+    "vision": {
+      "heading": "Our Vision",
+      "text": "We envision a city where every neighborhood has access to community gardens, where sustainable gardening practices are widely understood and practiced, and where communities are strengthened through shared experiences of growing food together."
+    },
+    "values": {
+      "heading": "Our Values",
+      "image": "/images/IMG_5563.jpg",
+      "cards": [
+        {
+          "title": "Community First",
+          "description": "We believe that strong communities are built through shared experiences and mutual support. Our gardens are spaces where neighbors become friends."
+        },
+        {
+          "title": "Sustainability",
+          "description": "We practice and teach environmentally responsible gardening methods that protect our soil, water, and ecosystems for future generations."
+        },
+        {
+          "title": "Accessibility",
+          "description": "Everyone should have access to fresh produce and green spaces. We work to remove barriers and create inclusive garden communities."
+        },
+        {
+          "title": "Education",
+          "description": "We believe in lifelong learning and sharing knowledge. Our workshops and programs welcome gardeners of all skill levels."
+        }
+      ]
+    },
+    "contact": {
+      "heading": "Contact Us",
+      "text": "Have questions about ReGarden or want to get involved? We'd love to hear from you!",
+      "email": "katieomartinek@gmail.com"
+    }
+  },
+  "team": {
+    "pageTitle": "Our Team",
+    "quote": {
+      "text": "Alone we can do so little; together we can do so much.",
+      "attribution": "— Helen Keller"
+    },
+    "galleryImages": [
+      "/images/IMG_5675.jpg",
+      "/images/IMG_2359.jpg",
+      "/images/IMG_3671.jpg"
+    ],
+    "joinOurTeam": {
+      "heading": "Join Our Team",
+      "text": "Interested in joining ReGarden? We're always looking for passionate individuals to help us grow our impact. Check out our volunteer opportunities or contact us about employment opportunities.",
+      "contactEmail": "info@regarden.org"
+    }
+  },
+  "volunteer": {
+    "pageTitle": "Volunteer with ReGarden",
+    "subtitle": "No experience necessary—we'll teach you everything you need to know!",
+    "description": "Volunteers are the heart of ReGarden. Join us in creating and maintaining community gardens, organizing events, and growing a stronger community together.",
+    "backgroundImage": "/images/IMG_5804.jpg",
+    "waysToVolunteer": {
+      "heading": "Ways to Volunteer",
+      "cards": [
+        {
+          "title": "Garden Work",
+          "description": "Planting, weeding, watering, and harvesting"
+        },
+        {
+          "title": "Education & Events",
+          "description": "Lead workshops or help organize events"
+        },
+        {
+          "title": "Community Leadership",
+          "description": "Coordinate a garden site or become a neighborhood ambassador"
+        },
+        {
+          "title": "Administration",
+          "description": "Communications, social media, and fundraising"
+        }
+      ]
+    },
+    "contactCoordinator": {
+      "heading": "Contact Our Volunteer Coordinator",
+      "text": "Questions about volunteering? Want to schedule a group volunteer day?",
+      "name": "Katie",
+      "email": "katieomartinek@gmail.com"
+    },
+    "applySection": {
+      "heading": "Apply to Volunteer",
+      "description": "Fill out the form below to get started."
+    }
+  },
+  "donate": {
+    "pageTitle": "Support ReGarden",
+    "heroImage": "/images/IMG_2592.jpeg",
+    "howDonationHelps": {
+      "heading": "How Your Donation Helps",
+      "description": "Your donation helps us maintain community gardens, provide educational workshops, and create accessible green spaces for everyone. Every contribution makes a difference in growing a stronger, greener community."
+    },
+    "benefitCards": [
+      {
+        "icon": "🌱",
+        "title": "Garden Maintenance",
+        "description": "Tools, seeds, soil, compost, and infrastructure for our 15+ community gardens"
+      },
+      {
+        "icon": "🎓",
+        "title": "Education Programs",
+        "description": "Workshops, classes, and resources to teach sustainable gardening practices"
+      },
+      {
+        "icon": "👥",
+        "title": "Community Events",
+        "description": "Community gatherings, celebrations, and neighborhood-building activities"
+      }
+    ],
+    "donationSection": {
+      "heading": "Make a Donation",
+      "description": "We accept donations through Cash App. Simply send your contribution using the button below and help us grow a greener community. Any amount makes a difference! After donating, you can optionally fill out the form to receive a tax receipt."
+    }
+  }
+}

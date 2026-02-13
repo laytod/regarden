@@ -4,8 +4,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import EventViewModal from '@/components/Events/EventViewModal'
+import EventModal from '@/components/Events/EventModal'
 import { EventInput } from '@fullcalendar/core'
+import Link from 'next/link'
 
 interface Event {
   id: string
@@ -20,7 +21,7 @@ interface Event {
   contactEmail: string
 }
 
-export default function Events() {
+export default function AdminEventsPage() {
   const [events, setEvents] = useState<Event[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
@@ -44,7 +45,6 @@ export default function Events() {
     []
   )
 
-  // Fetch events
   const fetchEvents = async () => {
     try {
       const response = await fetch('/api/events')
@@ -61,7 +61,6 @@ export default function Events() {
     fetchEvents()
   }, [])
 
-  // Sync picker year to current calendar month when opening modal (2025 excluded)
   useEffect(() => {
     if (showMonthPicker) {
       const [y] = displayMonth.split('-').map(Number)
@@ -69,7 +68,6 @@ export default function Events() {
     }
   }, [showMonthPicker, displayMonth])
 
-  // Convert events to FullCalendar format
   const calendarEvents: EventInput[] = events.map((event) => ({
     id: event.id,
     title: event.title,
@@ -87,13 +85,74 @@ export default function Events() {
     className: `event-type-${event.type}`,
   }))
 
-  // Handle event click
   const handleEventClick = (clickInfo: any) => {
     const eventData = clickInfo.event
     const event = events.find((e) => e.id === eventData.id)
     if (event) {
       setSelectedEvent(event)
       setIsModalOpen(true)
+    }
+  }
+
+  const handleDateClick = (arg: any) => {
+    const newEvent: Event = {
+      id: '',
+      title: '',
+      date: arg.dateStr.split('T')[0],
+      startTime: '09:00',
+      endTime: '17:00',
+      location: '',
+      description: '',
+      type: 'event',
+      contactPerson: '',
+      contactEmail: '',
+    }
+    setSelectedEvent(newEvent)
+    setIsModalOpen(true)
+  }
+
+  const handleSaveEvent = async (eventData: Event) => {
+    try {
+      const method = eventData.id ? 'PUT' : 'POST'
+      const response = await fetch('/api/events', {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(eventData),
+      })
+
+      if (response.ok) {
+        await fetchEvents()
+        setIsModalOpen(false)
+        setSelectedEvent(null)
+      } else {
+        console.error('Failed to save event')
+      }
+    } catch (error) {
+      console.error('Error saving event:', error)
+    }
+  }
+
+  const handleDeleteEvent = async (eventId: string) => {
+    if (!confirm('Are you sure you want to delete this event?')) {
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/events?id=${eventId}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        await fetchEvents()
+        setIsModalOpen(false)
+        setSelectedEvent(null)
+      } else {
+        console.error('Failed to delete event')
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error)
     }
   }
 
@@ -114,31 +173,43 @@ export default function Events() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div>
       <div className="mb-8">
-        {/* Event Type Legend */}
-        <div className="flex flex-wrap gap-4 mb-6 text-sm">
-          <div className="flex items-center">
-            <span className="w-4 h-4 bg-purple-600 rounded mr-2"></span>
-            <span className="text-slate-200">Workshop</span>
-          </div>
-          <div className="flex items-center">
-            <span className="w-4 h-4 bg-primary-600 rounded mr-2"></span>
-            <span className="text-slate-200">Event</span>
-          </div>
-          <div className="flex items-center">
-            <span className="w-4 h-4 bg-purple-500 rounded mr-2"></span>
-            <span className="text-slate-200">Meeting</span>
-          </div>
+        <h1 className="text-4xl font-bold text-primary-400 mb-2">
+          Manage Events
+        </h1>
+        <p className="text-slate-300 mb-2">
+          Click a date to add an event. Click an existing event to edit or delete.
+        </p>
+        <Link
+          href="/events"
+          className="text-primary-400 hover:text-primary-300 text-sm"
+        >
+          View public calendar →
+        </Link>
+      </div>
+
+      <div className="mb-6 flex flex-wrap gap-4 text-sm">
+        <div className="flex items-center">
+          <span className="w-4 h-4 bg-purple-600 rounded mr-2" />
+          <span className="text-slate-200">Workshop</span>
+        </div>
+        <div className="flex items-center">
+          <span className="w-4 h-4 bg-primary-600 rounded mr-2" />
+          <span className="text-slate-200">Event</span>
+        </div>
+        <div className="flex items-center">
+          <span className="w-4 h-4 bg-purple-500 rounded mr-2" />
+          <span className="text-slate-200">Meeting</span>
         </div>
       </div>
 
       {isLoading ? (
-        <div className="text-center py-12">
-          <div className="text-earth-600">Loading events...</div>
+        <div className="text-center py-12 text-earth-600">
+          Loading events...
         </div>
       ) : (
-        <div className="bg-[rgb(220,240,225)] rounded-lg shadow-lg p-4 border border-primary-500/30">
+        <div className="bg-slate-800 rounded-lg shadow-lg p-4 border border-purple-500/30">
           <FullCalendar
             ref={calendarRef}
             plugins={[dayGridPlugin, interactionPlugin]}
@@ -159,15 +230,15 @@ export default function Events() {
             datesSet={handleDatesSet}
             events={calendarEvents}
             eventClick={handleEventClick}
+            dateClick={handleDateClick}
             editable={false}
-            selectable={false}
+            selectable={true}
             height="auto"
             eventClassNames="cursor-pointer"
           />
         </div>
       )}
 
-      {/* Month picker modal: custom year + month grid */}
       {showMonthPicker && (
         <div
           className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
@@ -234,9 +305,13 @@ export default function Events() {
         </div>
       )}
 
-      {/* Event detail modal (view only) */}
       {isModalOpen && selectedEvent && (
-        <EventViewModal event={selectedEvent} onClose={handleCloseModal} />
+        <EventModal
+          event={selectedEvent}
+          onSave={handleSaveEvent}
+          onDelete={handleDeleteEvent}
+          onClose={handleCloseModal}
+        />
       )}
     </div>
   )

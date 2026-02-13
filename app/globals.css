@@ -6,6 +6,7 @@
   --foreground-rgb: 243, 244, 246;
   --background-start-rgb: 30, 41, 59;
   --background-end-rgb: 15, 23, 42;
+  --fc-toolbar-btn-gap: 0.75rem;
 }
 
 body {
@@ -136,4 +137,52 @@ select {
 
 .fc-day-today .fc-daygrid-day-frame {
   background-color: rgba(124, 179, 66, 0.3) !important;
+}
+
+/* FullCalendar toolbar: gap Select month–<> matches <>–today; prev/next touch (desktop + mobile) */
+.fc .fc-toolbar-chunk {
+  gap: var(--fc-toolbar-btn-gap);
+}
+.fc .fc-toolbar .fc-selectMonth-button,
+.fc .fc-toolbar-chunk:first-child > .fc-button:first-of-type {
+  margin-right: var(--fc-toolbar-btn-gap) !important;
+  border-radius: 0.5rem !important;
+}
+.fc .fc-toolbar .fc-prev-button {
+  border-radius: 0.5rem 0 0 0.5rem !important;
+}
+.fc .fc-toolbar .fc-next-button {
+  border-radius: 0 0.5rem 0.5rem 0 !important;
+}
+.fc .fc-toolbar .fc-today-button {
+  border-radius: 0.5rem !important;
+}
+
+/* FullCalendar mobile: toolbar and buttons horizontal */
+@media screen and (max-width: 767px) {
+  .fc .fc-toolbar.fc-header-toolbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--fc-toolbar-btn-gap);
+    padding: 0.5rem 0;
+  }
+  .fc .fc-toolbar-chunk {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--fc-toolbar-btn-gap);
+  }
+  .fc-toolbar-title {
+    font-size: 1.1rem;
+  }
+  .fc .fc-button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
 }
