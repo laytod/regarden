@@ -1,172 +1,128 @@
 # ReGarden - Community Gardens Nonprofit Website
 
-A modern, feature-rich website for ReGarden, a nonprofit organization dedicated to community gardens. Built with Next.js, TypeScript, and Tailwind CSS.
+A static website for ReGarden, a nonprofit dedicated to community gardens. Built with Next.js (static export), TypeScript, and Tailwind CSS. Designed to be hosted on cPanel or any static hosting (e.g. upload the `out/` folder to `public_html`).
 
 ## Features
 
 - **About Page** - Organization information, mission, vision, and values
-- **Team Page** - Team member profiles with bios and contact information
-- **Event Calendar** - Full-featured calendar with CRUD functionality:
-  - View events in month, week, or day views
-  - Create new events
-  - Edit existing events
-  - Delete events
-  - Color-coded event types (workshop, event, meeting)
-- **Volunteer Page** - Information about volunteering and volunteer application form
-- **Donate Page** - Donation information and donation form
-- **Newsletter Signup** - Newsletter subscription component available throughout the site
+- **Team Page** - Team member profiles (from `data/team.json`)
+- **Event Calendar** - View-only calendar; events loaded from `data/events.json` at build time
+- **Volunteer Page** - Volunteering info and application form
+- **Donate Page** - Donation info and donation form
+- **Newsletter Signup** - Newsletter form (demo; hook up to your service as needed)
+
+## Editing Content
+
+Content is driven by JSON and data files. Edit the files, then rebuild and re-upload.
+
+- **`data/content.json`** - Homepage, About, Donate, Volunteer copy and images (hero, feature cards, mission, etc.)
+- **`data/events.json`** - Event calendar entries (array of events with `id`, `title`, `date`, `startTime`, `endTime`, `location`, `description`, `type`, `contactPerson`, `contactEmail`)
+- **`data/team.json`** - Team members (id, name, role, email, phone, bio, socialLinks)
+- **`public/images/`** - Add or replace images; reference in content as `/images/...`
+
+After editing, run `npm run build` and deploy the generated `out/` folder.
 
 ## Tech Stack
 
-- **Next.js 14** - React framework with App Router
+- **Next.js 14** - Static export (`output: 'export'`)
 - **TypeScript** - Type-safe JavaScript
-- **Tailwind CSS** - Utility-first CSS framework
-- **FullCalendar** - Interactive calendar component
-- **React Hook Form** - Form handling and validation
-- **React** - UI library
+- **Tailwind CSS** - Styling
+- **FullCalendar** - Calendar (view-only)
+- **React Hook Form** - Form validation
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18.x or higher
-- npm or yarn package manager
+- **Node.js 20.x** (required; see `engines` in package.json). Install with nvm (below) or from [nodejs.org](https://nodejs.org/).
+- npm (included with Node)
 
-### Installation
+#### Install Node with nvm
 
-1. Install dependencies:
+[nvm](https://github.com/nvm-sh/nvm) (Node Version Manager) lets you install and switch Node versions per project.
+
+1. **Install nvm** (if you don’t have it):
+
+   ```bash
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+   ```
+
+   Then restart your terminal (or run `source ~/.bashrc` or `source ~/.zshrc`).
+
+2. **Install Node 20** and use it in this project:
+
+   ```bash
+   cd /path/to/regarden
+   nvm install    # installs the version in .nvmrc (20)
+   nvm use        # switches to that version
+   ```
+
+   After that, `node -v` should show v20.x.x. Run `nvm use` whenever you open a new terminal in this project (or use a shell integration that auto-runs it).
+
+### Install and develop
+
 ```bash
 npm install
-```
-
-2. Start the development server:
-```bash
 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser to see the website.
+Open [http://localhost:3000](http://localhost:3000).
 
-### Building for Production
+### Build static site (for cPanel / static hosting)
 
-1. Build the production version:
 ```bash
 npm run build
 ```
 
-2. Start the production server:
+This produces the **`out/`** folder. Upload the contents of `out/` to your host’s web root (e.g. cPanel `public_html`).
+
+### Test the static build locally
+
+**Option 1: Node (quick)**  
+After building, serve the export with a simple static server:
+
 ```bash
-npm start
+npm run serve
 ```
+
+Then open [http://localhost:3000](http://localhost:3000).
+
+**Option 2: nginx (test deployment locally)**  
+Use nginx to serve the static export before uploading to GoDaddy. Same files, same behavior.
+
+1. Build: `npm run build`
+2. Run nginx (Docker, no install): `npm run serve:nginx`  
+   Or: `docker run --rm -v "$(pwd)/out:/usr/share/nginx/html:ro" -p 8080:80 nginx:alpine`
+3. Open [http://localhost:8080](http://localhost:8080). Stop with Ctrl+C.
+
+With nginx installed locally: `nginx -p "$(pwd)" -c "$(pwd)/nginx.conf"` (then `nginx -s stop` to stop).
 
 ## Project Structure
 
 ```
 regarden/
-├── app/                    # Next.js App Router pages
-│   ├── about/             # About page
-│   ├── team/              # Team page
-│   ├── events/            # Events calendar page
-│   ├── volunteer/         # Volunteer page
-│   ├── donate/            # Donate page
-│   ├── api/               # API routes
-│   │   └── events/        # Events API endpoints
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Homepage
-│   └── globals.css        # Global styles
-├── components/            # React components
-│   ├── Layout/            # Navigation and Footer
-│   ├── Team/              # Team member components
-│   ├── Events/            # Event calendar components
-│   └── Forms/             # Form components
-├── data/                  # JSON data files
-│   ├── team.json          # Team member data
-│   └── events.json        # Events data
-├── public/                # Static assets
-└── package.json           # Dependencies
+├── app/                    # Next.js App Router (static export)
+│   ├── about/              # About page
+│   ├── team/               # Team page
+│   ├── events/             # Events page (events from data/events.json at build time)
+│   ├── volunteer/          # Volunteer page
+│   ├── donate/             # Donate page
+│   ├── layout.tsx          # Root layout
+│   ├── page.tsx            # Homepage
+│   └── globals.css         # Global styles
+├── components/             # React components
+├── data/                   # Content and data (edit these, then rebuild)
+│   ├── content.json        # Site content (home, about, donate, volunteer)
+│   ├── events.json         # Calendar events
+│   └── team.json           # Team members
+├── public/                 # Static assets (images, etc.)
+└── out/                    # Generated static site (after npm run build)
 ```
 
-## Data Storage
+## Forms
 
-For this demo, data is stored in JSON files:
-- `data/team.json` - Team member information
-- `data/events.json` - Events data (can be modified through the calendar interface)
-
-The events data can be dynamically updated through the calendar interface. Changes are saved to the `data/events.json` file.
-
-## Features in Detail
-
-### Event Calendar
-
-- Click on any date to create a new event
-- Click on an existing event to view/edit details
-- Event types are color-coded:
-  - Blue: Workshops
-  - Green: Events
-  - Purple: Meetings
-- Switch between month, week, and day views
-- All events are persisted in `data/events.json`
-
-### Forms
-
-All forms include client-side validation using React Hook Form:
-- Newsletter Signup - Email validation
-- Volunteer Application - Comprehensive form with multiple fields
-- Donation Form - Amount selection and donor information
-
-**Note:** The forms are currently demo versions. In production, they would integrate with:
-- Email service (for newsletter)
-- Volunteer management system (for applications)
-- Payment processor (for donations)
-
-## Customization
-
-### Colors
-
-Colors are defined in `tailwind.config.js`:
-- Primary colors (green) - Used for main actions and branding
-- Earth colors (brown/gray) - Used for text and backgrounds
-
-### Team Members
-
-Edit `data/team.json` to update team member information:
-```json
-{
-  "id": "1",
-  "name": "Name",
-  "role": "Role",
-  "email": "email@regarden.org",
-  "phone": "(555) 123-4567",
-  "bio": "Bio text",
-  "socialLinks": {
-    "linkedin": "https://linkedin.com/in/...",
-    "twitter": "@username"
-  }
-}
-```
-
-### Initial Events
-
-Initial events are defined in `data/events.json`. These can be modified through the calendar interface, or you can edit the file directly.
-
-## Development Notes
-
-- The website uses Next.js App Router for routing
-- All pages are server-side rendered for better SEO
-- The calendar uses FullCalendar with React integration
-- Form validation is handled by React Hook Form
-- API routes handle CRUD operations for events
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+Newsletter, volunteer, and donation forms use client-side validation. In production, wire them to your chosen services (e.g. Formspree, email backend, payment processor).
 
 ## License
 
 This project is a demo website for ReGarden nonprofit organization.
-
-## Contact
-
-For questions about this website, please contact: info@regarden.org
