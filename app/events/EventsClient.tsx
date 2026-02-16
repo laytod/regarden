@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -9,7 +9,6 @@ import LocationLink from '@/components/Events/LocationLink'
 import { formatTime12h } from '@/lib/formatTime'
 import { sanitizeEventDescription } from '@/lib/sanitizeHtml'
 import { EventInput } from '@fullcalendar/core'
-import { parseIcsToEvents } from '@/lib/parseIcsClient'
 
 export interface Event {
   id: string
@@ -26,51 +25,10 @@ export interface Event {
 
 interface EventsClientProps {
   initialEvents: Event[]
-  /** When set, events are fetched from this iCal URL on page load (client-side). Use for public calendars. */
-  icalFeedUrl?: string
-  /** When set, build-time calendar fetch failed; show this message instead of falling back to file. */
-  calendarErrorMessage?: string
 }
 
-export default function EventsClient({
-  initialEvents,
-  icalFeedUrl,
-  calendarErrorMessage,
-}: EventsClientProps) {
+export default function EventsClient({ initialEvents }: EventsClientProps) {
   const [events, setEvents] = useState<Event[]>(initialEvents)
-  const [loadState, setLoadState] = useState<'idle' | 'loading' | 'done' | 'error'>(
-    icalFeedUrl ? 'loading' : 'idle'
-  )
-  const [loadError, setLoadError] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!icalFeedUrl) return
-    let cancelled = false
-    setLoadState('loading')
-    setLoadError(null)
-    fetch(icalFeedUrl)
-      .then((res) => {
-        if (!res.ok) throw new Error(`Calendar feed failed: ${res.status}`)
-        return res.text()
-      })
-      .then((icsText) => parseIcsToEvents(icsText))
-      .then((parsed) => {
-        if (!cancelled) {
-          setEvents(parsed)
-          setLoadState('done')
-        }
-      })
-      .catch((err) => {
-        if (!cancelled) {
-          const message = err instanceof Error ? err.message : 'Failed to load calendar'
-          setLoadError(message)
-          setLoadState('error')
-        }
-      })
-    return () => {
-      cancelled = true
-    }
-  }, [icalFeedUrl])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
   const [displayMonth, setDisplayMonth] = useState(() =>
@@ -164,22 +122,6 @@ export default function EventsClient({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {loadState === 'loading' && (
-        <p className="mb-4 text-slate-300 text-sm">Loading calendar…</p>
-      )}
-      {(loadState === 'error' && loadError) && (
-        <div className="mb-4 rounded-lg bg-amber-900/30 border border-amber-600/50 p-4 text-sm" role="alert">
-          <p className="font-medium text-amber-200 mb-1">Calendar couldn’t load (often due to CORS).</p>
-          <p className="text-amber-200/90 mb-2">Use build-time fetch instead: in <code className="bg-black/30 px-1 rounded">.env.local</code> remove <code className="bg-black/30 px-1 rounded">NEXT_PUBLIC_GOOGLE_CALENDAR_ICAL_URL</code> and set <code className="bg-black/30 px-1 rounded">GOOGLE_CALENDAR_ICAL_URL</code> to your calendar’s iCal URL (same URL is fine). Then run <code className="bg-black/30 px-1 rounded">npm run build</code> again.</p>
-          <p className="text-amber-200/70 text-xs">{loadError}</p>
-        </div>
-      )}
-      {calendarErrorMessage && (
-        <div className="mb-4 rounded-lg bg-amber-900/30 border border-amber-600/50 p-4 text-sm" role="alert">
-          <p className="font-medium text-amber-200">{calendarErrorMessage}</p>
-        </div>
-      )}
-
       {upcomingEvents.length > 0 && (
         <section className="mb-10" aria-labelledby="upcoming-events-heading">
           <h2 id="upcoming-events-heading" className="text-xl font-semibold text-slate-100 mb-4">

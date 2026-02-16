@@ -27,7 +27,6 @@ const mockContent = {
     featureCards: [
       { icon: '🌱', title: 'Card 1', description: 'Desc 1' },
     ],
-    newsletter: { heading: 'Stay Updated', description: 'Subscribe here.' },
   },
   about: {
     pageTitle: 'About',

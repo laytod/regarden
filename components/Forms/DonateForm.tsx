@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { submitForm } from '@/lib/submitForm'
 
 interface DonateFormData {
   firstName: string
@@ -19,15 +20,11 @@ export default function DonateForm() {
   const [receiptOpen, setReceiptOpen] = useState(false)
   const { register, handleSubmit, formState: { errors }, reset } = useForm<DonateFormData>()
 
-  const onSubmit = async (data: DonateFormData) => {
-    // In a real application, this would send the donor info to your backend
-    // so you can send them a tax receipt
-    console.log('Donor info for receipt:', data)
-    
+  const onSubmit = (data: DonateFormData) => {
+    submitForm('Donation Tax Receipt Request – ReGarden', data)
     setSubmitted(true)
     reset()
-    
-    // Reset success message after 5 seconds
+    setReceiptOpen(false)
     setTimeout(() => setSubmitted(false), 5000)
   }
 

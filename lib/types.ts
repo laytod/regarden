@@ -1,21 +1,3 @@
-export interface User {
-  id: string
-  email: string
-  passwordHash: string
-  name: string
-  role: 'admin' | 'editor'
-  createdAt: string
-  updatedAt: string
-}
-
-export interface PasswordResetToken {
-  token: string
-  userId: string
-  email: string
-  expiresAt: string
-  used: boolean
-}
-
 /** Editable site content (data/content.json) */
 export interface SiteContent {
   homepage: HomepageContent
@@ -33,7 +15,6 @@ export interface HomepageContent {
     missionText: string
   }
   featureCards: Array<{ icon: string; title: string; description: string }>
-  newsletter: { heading: string; description: string }
 }
 
 export interface AboutContent {

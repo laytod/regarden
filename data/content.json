@@ -22,11 +22,7 @@
         "title": "Community",
         "description": "We bring neighbors together, building stronger communities through shared experiences in the garden."
       }
-    ],
-    "newsletter": {
-      "heading": "Stay Updated",
-      "description": "Subscribe to our newsletter to receive updates about events, workshops, and ways to get involved."
-    }
+    ]
   },
   "about": {
     "pageTitle": "About ReGarden",
