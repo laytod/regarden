@@ -1,24 +1,12 @@
 [
   {
-    "id": "59rp2hpduab6uiksrfc1tp3hq4-google-com-1771311600000",
-    "title": "Test Event",
-    "date": "2026-02-17",
-    "startTime": "01:00",
-    "endTime": "05:00",
-    "location": "HOPE Family Health - Westmoreland Health Center, 1124 New Highway 52,, Westmoreland, TN 37186, USA",
-    "description": "Test description. blah blah blah blah blah",
-    "type": "event",
-    "contactPerson": "",
-    "contactEmail": ""
-  },
-  {
-    "id": "06h006rka5oc8nqo66p7hposl1-google-com-1773226800000",
-    "title": "🌱 Seed Swap ☀️",
-    "date": "2026-03-11",
-    "startTime": "06:00",
-    "endTime": "07:00",
+    "id": "4h18urduahsrfhn9pn11a385bn-google-com-1772902800000",
+    "title": "Seed Swap",
+    "date": "2026-03-07",
+    "startTime": "11:00",
+    "endTime": "13:00",
     "location": "Small Wonders Farm, 1370 Siloam Church Rd, Westmoreland, TN 37186, USA",
-    "description": "Join us for our upcoming seed swap. Bring some seeds to share, take what you need.  It's a great way to meet new people and maybe grow some things you've never grown before.\n \nContact: katie@regardenus.com",
+    "description": "Bring seeds to share if you have them, but don’t worry if you don’t. We’ve built a strong seed bank and have plenty to share with those who may not have access. Come connect with fellow gardeners, swap knowledge, and get inspired for the growing season ahead.",
     "type": "event",
     "contactPerson": "",
     "contactEmail": ""
