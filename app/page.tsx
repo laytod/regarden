@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import NewsletterSignup from '@/components/Forms/NewsletterSignup'
 import { getContent } from '@/lib/content'
@@ -11,10 +12,11 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative py-20 border-b border-purple-800/30 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src={hero.backgroundImage}
             alt=""
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
           />
         </div>
         <div className="absolute inset-0 z-0 bg-slate-900/50"></div>

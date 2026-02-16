@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { getContent } from '@/lib/content'
 
 export default function About() {
@@ -13,10 +14,11 @@ export default function About() {
       <section className="mb-12 relative h-72 sm:h-80 md:h-96 rounded-lg overflow-hidden">
         {mission.image && (
           <>
-            <img
+            <Image
               src={mission.image}
               alt="ReGarden community members at the garden"
-              className="absolute inset-0 w-full h-full object-cover object-[center_75%] md:object-center scale-[1.6] md:scale-100 origin-[center_75%] md:origin-center"
+              fill
+              className="object-cover object-[center_75%] md:object-center scale-[1.6] md:scale-100 origin-[center_75%] md:origin-center"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 to-transparent" />
           </>
@@ -43,10 +45,11 @@ export default function About() {
       <section className="mb-12 relative rounded-lg overflow-hidden">
         {values.image && (
           <>
-            <img
+            <Image
               src={values.image}
               alt="Sunflower from ReGarden"
-              className="absolute inset-0 w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-slate-900/40"></div>
           </>

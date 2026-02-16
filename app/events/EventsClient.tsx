@@ -6,6 +6,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import EventViewModal from '@/components/Events/EventViewModal'
 import LocationLink from '@/components/Events/LocationLink'
+import { formatTime12h } from '@/lib/formatTime'
+import { sanitizeEventDescription } from '@/lib/sanitizeHtml'
 import { EventInput } from '@fullcalendar/core'
 import { parseIcsToEvents } from '@/lib/parseIcsClient'
 
@@ -194,9 +196,9 @@ export default function EventsClient({
                   <p className="text-slate-400 text-sm">
                     {formatEventDateLong(event.date)}
                     {' · '}
-                    {event.startTime}
+                    {formatTime12h(event.startTime)}
                     {event.endTime && event.endTime !== event.startTime
-                      ? ` – ${event.endTime}`
+                      ? ` – ${formatTime12h(event.endTime)}`
                       : ''}
                   </p>
                   {event.location && (
@@ -208,9 +210,12 @@ export default function EventsClient({
                     </p>
                   )}
                   {event.description && (
-                    <p className="text-slate-200 text-sm whitespace-pre-wrap pt-1">
-                      {event.description}
-                    </p>
+                    <div
+                      className="text-slate-200 text-sm whitespace-pre-wrap pt-1 [&_strong]:text-purple-300 [&_b]:text-purple-300 [&_a]:text-primary-400 [&_a]:hover:underline [&_a]:underline-offset-1"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeEventDescription(event.description),
+                      }}
+                    />
                   )}
                   {(event.contactPerson || event.contactEmail) && (
                     <p className="text-slate-300 text-sm">
@@ -277,6 +282,11 @@ export default function EventsClient({
           selectable={false}
           height="auto"
           eventClassNames="cursor-pointer"
+          eventTimeFormat={{
+            hour: 'numeric',
+            minute: '2-digit',
+            meridiem: 'short',
+          }}
         />
       </div>
 

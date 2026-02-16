@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import VolunteerForm from '@/components/Forms/VolunteerForm'
 import { getContent } from '@/lib/content'
 
@@ -28,10 +29,11 @@ export default function Volunteer() {
       <section className="mb-12 relative rounded-lg overflow-hidden">
         {backgroundImage && (
           <>
-            <img
+            <Image
               src={backgroundImage}
               alt="Sunflowers in the ReGarden community garden"
-              className="absolute inset-0 w-full h-full object-cover object-top"
+              fill
+              className="object-cover object-top"
             />
             <div className="absolute inset-0 bg-slate-900/50"></div>
           </>
