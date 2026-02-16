@@ -1,5 +1,7 @@
 'use client'
 
+import LocationLink from './LocationLink'
+
 interface Event {
   id: string
   title: string
@@ -69,7 +71,12 @@ export default function EventViewModal({ event, onClose }: EventViewModalProps) 
           {event.location && (
             <div>
               <p className="text-sm font-semibold text-primary-400 mb-1">Location</p>
-              <p className="text-slate-200">{event.location}</p>
+              <p className="text-slate-200">
+                <LocationLink
+                  location={event.location}
+                  className="text-primary-400 hover:text-primary-300 hover:underline"
+                />
+              </p>
             </div>
           )}
 
