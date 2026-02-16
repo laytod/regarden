@@ -26,7 +26,7 @@ export default function Navigation() {
             <Link href="/" className="flex items-center">
               <div className="relative h-20 w-20 bg-white rounded-lg overflow-hidden">
                 <Image
-                  src="/images/logo/87B90DB6-993E-4834-A266-4D5A127B6B9E.png"
+                  src="/images/logo/regarden-logo.png"
                   alt="ReGarden Logo"
                   fill
                   className="object-contain rounded-md scale-125"

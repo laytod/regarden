@@ -2,7 +2,7 @@
   "homepage": {
     "hero": {
       "heading": "Growing Gardens Growing Communities",
-      "backgroundImage": "/images/background/page1-003.jpg",
+      "backgroundImage": "/images/homepage-hero.jpg",
       "missionHeading": "Our Mission",
       "missionText": "To provide opportunities for local residents to garden, grow, and harvest produce, to promote education about sustainable local food production and gardening techniques as well as offer educational workshops for all ages on topics such as nutrition and healthy food preparation."
     },
@@ -33,7 +33,7 @@
     "mission": {
       "heading": "Our Mission",
       "text": "To provide opportunities for local residents to garden, grow, and harvest produce, to promote education about sustainable local food production and gardening techniques as well as offer educational workshops for all ages on topics such as nutrition and healthy food preparation.",
-      "image": "/images/IMG_0857.jpg"
+      "image": "/images/about-mission.jpg"
     },
     "vision": {
       "heading": "Our Vision",
@@ -41,7 +41,7 @@
     },
     "values": {
       "heading": "Our Values",
-      "image": "/images/IMG_5563.jpg",
+      "image": "/images/about-values.jpg",
       "cards": [
         {
           "title": "Community First",
@@ -74,21 +74,21 @@
       "attribution": "— Helen Keller"
     },
     "galleryImages": [
-      "/images/IMG_5675.jpg",
-      "/images/IMG_2359.jpg",
-      "/images/IMG_3671.jpg"
+      "/images/team-gallery-1.jpg",
+      "/images/team-gallery-2.jpg",
+      "/images/team-gallery-3.jpg"
     ],
     "joinOurTeam": {
       "heading": "Join Our Team",
       "text": "Interested in joining ReGarden? We're always looking for passionate individuals to help us grow our impact. Check out our volunteer opportunities or contact us about employment opportunities.",
-      "contactEmail": "info@regarden.org"
+      "contactEmail": "katieomartinek@gmail.com"
     }
   },
   "volunteer": {
     "pageTitle": "Volunteer with ReGarden",
     "subtitle": "No experience necessary—we'll teach you everything you need to know!",
     "description": "Volunteers are the heart of ReGarden. Join us in creating and maintaining community gardens, organizing events, and growing a stronger community together.",
-    "backgroundImage": "/images/IMG_5804.jpg",
+    "backgroundImage": "/images/volunteer-hero.jpg",
     "waysToVolunteer": {
       "heading": "Ways to Volunteer",
       "cards": [
@@ -123,7 +123,7 @@
   },
   "donate": {
     "pageTitle": "Support ReGarden",
-    "heroImage": "/images/IMG_2592.jpeg",
+    "heroImage": "/images/donate-hero.jpeg",
     "howDonationHelps": {
       "heading": "How Your Donation Helps",
       "description": "Your donation helps us maintain community gardens, provide educational workshops, and create accessible green spaces for everyone. Every contribution makes a difference in growing a stronger, greener community."

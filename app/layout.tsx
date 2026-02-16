@@ -15,14 +15,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* eslint-disable-next-line @next/next/no-page-custom-font -- Root layout applies to all pages; font loads at runtime to avoid build-time network. */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
-        />
-      </head>
-      <body className="font-sans" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <head />
+      <body className="font-sans">
         <Navigation />
         <main className="min-h-screen">
           {children}

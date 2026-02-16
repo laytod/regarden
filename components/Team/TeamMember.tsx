@@ -42,12 +42,16 @@ export default function TeamMember({ member }: TeamMemberProps) {
           <div className="space-y-2 text-sm text-slate-200">
             <div className="flex items-center">
               <span className="mr-2">📧</span>
-              <a 
-                href={`mailto:${member.email}`}
-                className="hover:text-primary-400 transition-colors text-primary-400"
-              >
-                {member.email}
-              </a>
+              {member.email === 'katieomartinek@gmail.com' ? (
+                <a
+                  href={`mailto:${member.email}`}
+                  className="text-primary-400 hover:text-primary-300 transition-colors"
+                >
+                  {member.email}
+                </a>
+              ) : (
+                <span className="text-primary-400">{member.email}</span>
+              )}
             </div>
             {member.phone && (
               <div className="flex items-center">

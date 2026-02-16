@@ -79,7 +79,7 @@ function getDefaultContent(): SiteContent {
     homepage: {
       hero: {
         heading: 'Growing Gardens Growing Communities',
-        backgroundImage: '/images/background/page1-003.jpg',
+        backgroundImage: '/images/homepage-hero.jpg',
         missionHeading: 'Our Mission',
         missionText: '',
       },
