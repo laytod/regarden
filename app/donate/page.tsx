@@ -20,7 +20,7 @@ export default function Donate() {
 
       <section className="mb-12 relative rounded-lg overflow-hidden">
         {heroImage && (
-          <div className="relative min-h-[34vh] w-full md:min-h-0 md:aspect-video">
+          <div className="relative min-h-[34vh] w-full md:min-h-0 md:aspect-video overflow-hidden">
             <Image
               src={heroImage}
               alt="ReGarden community garden"
@@ -29,13 +29,13 @@ export default function Donate() {
               priority
               sizes="(max-width: 768px) 100vw, 896px"
             />
-            {/* Mobile: overlay with heading + description only; box pb matches gap below box */}
-            <div className="md:hidden absolute inset-0 bg-black/30 flex flex-col justify-start items-center text-center pt-3 px-4 pb-3 overflow-y-auto">
-              <h2 className="text-3xl font-semibold text-purple-300 mb-2">
+            {/* Mobile: overlay with heading + description only */}
+            <div className="md:hidden absolute inset-0 bg-black/30 flex flex-col justify-center items-center text-center p-4 overflow-hidden min-h-0 overscroll-none">
+              <h2 className="text-xl font-semibold text-purple-300 mb-1 flex-shrink-0">
                 {howDonationHelps.heading}
               </h2>
-              <div className="bg-black/30 backdrop-blur-sm px-4 py-3 rounded-lg border border-white/10 max-w-2xl">
-                <p className="text-white/90">{howDonationHelps.description}</p>
+              <div className="bg-black/30 backdrop-blur-sm p-3 rounded-lg border border-white/10 max-w-2xl min-h-0 overflow-hidden flex-shrink min-w-0">
+                <p className="text-white/90 text-sm">{howDonationHelps.description}</p>
               </div>
             </div>
             {/* Desktop: full overlay with heading + description + cards */}
@@ -43,7 +43,7 @@ export default function Donate() {
               <h2 className="text-3xl font-semibold text-purple-300 mb-4">
                 {howDonationHelps.heading}
               </h2>
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-lg border border-white/10 max-w-2xl mb-6">
+              <div className="bg-black/30 backdrop-blur-sm p-4 rounded-lg border border-white/10 max-w-2xl mb-4">
                 <p className="text-white/90">{howDonationHelps.description}</p>
               </div>
               <div className="grid md:grid-cols-3 gap-4 max-w-3xl">

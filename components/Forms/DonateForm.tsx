@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -50,9 +51,11 @@ export default function DonateForm() {
           <span className="text-4xl font-bold text-primary-400">{CASHAPP_HANDLE}</span>
         </div>
         <div className="mb-4">
-          <img
+          <Image
             src="/images/Screenshot%202026-01-20%20at%2012.51.01%E2%80%AFAM.png"
             alt="Cash App QR Code for RegardenUS"
+            width={192}
+            height={192}
             className="mx-auto w-48 h-48 rounded-lg"
           />
         </div>

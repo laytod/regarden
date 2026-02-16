@@ -1,11 +1,15 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import EventViewModal from '@/components/Events/EventViewModal'
+import LocationLink from '@/components/Events/LocationLink'
+import { formatTime12h } from '@/lib/formatTime'
+import { sanitizeEventDescription } from '@/lib/sanitizeHtml'
 import { EventInput } from '@fullcalendar/core'
+import { parseIcsToEvents } from '@/lib/parseIcsClient'
 
 export interface Event {
   id: string
@@ -22,10 +26,51 @@ export interface Event {
 
 interface EventsClientProps {
   initialEvents: Event[]
+  /** When set, events are fetched from this iCal URL on page load (client-side). Use for public calendars. */
+  icalFeedUrl?: string
+  /** When set, build-time calendar fetch failed; show this message instead of falling back to file. */
+  calendarErrorMessage?: string
 }
 
-export default function EventsClient({ initialEvents }: EventsClientProps) {
-  const [events] = useState<Event[]>(initialEvents)
+export default function EventsClient({
+  initialEvents,
+  icalFeedUrl,
+  calendarErrorMessage,
+}: EventsClientProps) {
+  const [events, setEvents] = useState<Event[]>(initialEvents)
+  const [loadState, setLoadState] = useState<'idle' | 'loading' | 'done' | 'error'>(
+    icalFeedUrl ? 'loading' : 'idle'
+  )
+  const [loadError, setLoadError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!icalFeedUrl) return
+    let cancelled = false
+    setLoadState('loading')
+    setLoadError(null)
+    fetch(icalFeedUrl)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Calendar feed failed: ${res.status}`)
+        return res.text()
+      })
+      .then((icsText) => parseIcsToEvents(icsText))
+      .then((parsed) => {
+        if (!cancelled) {
+          setEvents(parsed)
+          setLoadState('done')
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          const message = err instanceof Error ? err.message : 'Failed to load calendar'
+          setLoadError(message)
+          setLoadState('error')
+        }
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [icalFeedUrl])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
   const [displayMonth, setDisplayMonth] = useState(() =>
@@ -47,7 +92,6 @@ export default function EventsClient({ initialEvents }: EventsClientProps) {
     []
   )
 
-  // Sync picker year to current calendar month when opening modal (2025 excluded)
   const handleMonthPickerOpen = () => {
     setShowMonthPicker(true)
     const [y] = displayMonth.split('-').map(Number)
@@ -96,8 +140,105 @@ export default function EventsClient({ initialEvents }: EventsClientProps) {
     setShowMonthPicker(false)
   }
 
+  const today = useMemo(() => new Date().toISOString().slice(0, 10), [])
+  const upcomingEvents = useMemo(() => {
+    return events
+      .filter((e) => e.date >= today)
+      .sort(
+        (a, b) =>
+          new Date(`${a.date}T${a.startTime}`).getTime() -
+          new Date(`${b.date}T${b.startTime}`).getTime()
+      )
+      .slice(0, 3)
+  }, [events, today])
+
+  const formatEventDateLong = (dateStr: string) => {
+    const d = new Date(dateStr + 'T12:00:00')
+    return d.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {loadState === 'loading' && (
+        <p className="mb-4 text-slate-300 text-sm">Loading calendar…</p>
+      )}
+      {(loadState === 'error' && loadError) && (
+        <div className="mb-4 rounded-lg bg-amber-900/30 border border-amber-600/50 p-4 text-sm" role="alert">
+          <p className="font-medium text-amber-200 mb-1">Calendar couldn’t load (often due to CORS).</p>
+          <p className="text-amber-200/90 mb-2">Use build-time fetch instead: in <code className="bg-black/30 px-1 rounded">.env.local</code> remove <code className="bg-black/30 px-1 rounded">NEXT_PUBLIC_GOOGLE_CALENDAR_ICAL_URL</code> and set <code className="bg-black/30 px-1 rounded">GOOGLE_CALENDAR_ICAL_URL</code> to your calendar’s iCal URL (same URL is fine). Then run <code className="bg-black/30 px-1 rounded">npm run build</code> again.</p>
+          <p className="text-amber-200/70 text-xs">{loadError}</p>
+        </div>
+      )}
+      {calendarErrorMessage && (
+        <div className="mb-4 rounded-lg bg-amber-900/30 border border-amber-600/50 p-4 text-sm" role="alert">
+          <p className="font-medium text-amber-200">{calendarErrorMessage}</p>
+        </div>
+      )}
+
+      {upcomingEvents.length > 0 && (
+        <section className="mb-10" aria-labelledby="upcoming-events-heading">
+          <h2 id="upcoming-events-heading" className="text-xl font-semibold text-slate-100 mb-4">
+            Upcoming events
+          </h2>
+          <div className="space-y-3">
+            {upcomingEvents.map((event) => (
+              <article
+                key={event.id}
+                className="rounded-lg border border-primary-500/30 bg-slate-800/50 overflow-hidden"
+              >
+                <div className="px-4 py-3 space-y-1.5">
+                  <h3 className="text-base font-bold text-primary-400">{event.title}</h3>
+                  <p className="text-slate-400 text-sm">
+                    {formatEventDateLong(event.date)}
+                    {' · '}
+                    {formatTime12h(event.startTime)}
+                    {event.endTime && event.endTime !== event.startTime
+                      ? ` – ${formatTime12h(event.endTime)}`
+                      : ''}
+                  </p>
+                  {event.location && (
+                    <p className="text-slate-300 text-sm">
+                      <LocationLink
+                        location={event.location}
+                        className="text-primary-400 hover:underline"
+                      />
+                    </p>
+                  )}
+                  {event.description && (
+                    <div
+                      className="text-slate-200 text-sm whitespace-pre-wrap pt-1 [&_strong]:text-purple-300 [&_b]:text-purple-300 [&_a]:text-primary-400 [&_a]:hover:underline [&_a]:underline-offset-1"
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeEventDescription(event.description),
+                      }}
+                    />
+                  )}
+                  {(event.contactPerson || event.contactEmail) && (
+                    <p className="text-slate-300 text-sm">
+                      Contact:{' '}
+                      {event.contactPerson && <span>{event.contactPerson}</span>}
+                      {event.contactPerson && event.contactEmail && ' · '}
+                      {event.contactEmail && (
+                        <a
+                          href={`mailto:${event.contactEmail}`}
+                          className="text-primary-400 hover:underline"
+                        >
+                          {event.contactEmail}
+                        </a>
+                      )}
+                    </p>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
       <div className="mb-8">
         {/* Event Type Legend */}
         <div className="flex flex-wrap gap-4 mb-6 text-sm">
@@ -141,6 +282,11 @@ export default function EventsClient({ initialEvents }: EventsClientProps) {
           selectable={false}
           height="auto"
           eventClassNames="cursor-pointer"
+          eventTimeFormat={{
+            hour: 'numeric',
+            minute: '2-digit',
+            meridiem: 'short',
+          }}
         />
       </div>
 

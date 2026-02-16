@@ -1,10 +1,7 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import Navigation from '@/components/Layout/Navigation'
 import Footer from '@/components/Layout/Footer'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'ReGarden - Community Gardens Nonprofit',
@@ -18,7 +15,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <head>
+        {/* eslint-disable-next-line @next/next/no-page-custom-font -- Root layout applies to all pages; font loads at runtime to avoid build-time network. */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+        />
+      </head>
+      <body className="font-sans" style={{ fontFamily: "'Inter', sans-serif" }}>
         <Navigation />
         <main className="min-h-screen">
           {children}

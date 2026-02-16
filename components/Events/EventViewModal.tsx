@@ -1,5 +1,9 @@
 'use client'
 
+import LocationLink from './LocationLink'
+import { formatTime12h } from '@/lib/formatTime'
+import { sanitizeEventDescription } from '@/lib/sanitizeHtml'
+
 interface Event {
   id: string
   title: string
@@ -57,7 +61,7 @@ export default function EventViewModal({ event, onClose }: EventViewModalProps) 
             <div>
               <p className="text-sm font-semibold text-primary-400 mb-1">Time</p>
               <p className="text-slate-200">
-                {event.startTime} – {event.endTime}
+                {formatTime12h(event.startTime)} – {formatTime12h(event.endTime)}
               </p>
             </div>
             <div>
@@ -69,14 +73,24 @@ export default function EventViewModal({ event, onClose }: EventViewModalProps) 
           {event.location && (
             <div>
               <p className="text-sm font-semibold text-primary-400 mb-1">Location</p>
-              <p className="text-slate-200">{event.location}</p>
+              <p className="text-slate-200">
+                <LocationLink
+                  location={event.location}
+                  className="text-primary-400 hover:text-primary-300 hover:underline"
+                />
+              </p>
             </div>
           )}
 
           {event.description && (
             <div>
               <p className="text-sm font-semibold text-primary-400 mb-1">Description</p>
-              <p className="text-slate-200 whitespace-pre-wrap">{event.description}</p>
+              <div
+                className="text-slate-200 whitespace-pre-wrap [&_strong]:text-purple-300 [&_b]:text-purple-300 [&_a]:text-primary-400 [&_a]:hover:underline [&_a]:underline-offset-1"
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeEventDescription(event.description),
+                }}
+              />
             </div>
           )}
 

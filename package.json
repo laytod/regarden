@@ -9,13 +9,15 @@
     "clean": "rm -rf .next out",
     "dev": "npm run clean && next dev",
     "dev:fast": "next dev",
-    "build": "npm run clean && next build",
+    "build": "node scripts/fetch-calendar-to-json.mjs && npm run clean && next build",
     "serve": "npx serve out",
     "serve:nginx": "docker run --rm -v \"$(pwd)/out:/usr/share/nginx/html:ro\" -p 8080:80 nginx:alpine",
+    "serve:ngrok": "npx ngrok http 8080",
     "lint": "next lint",
     "test": "jest --forceExit",
     "test:watch": "jest --watch --forceExit",
-    "test:coverage": "jest --coverage --forceExit"
+    "test:coverage": "jest --coverage --forceExit",
+    "calendar:test": "node scripts/test-calendar-fetch.mjs"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^6.1.10",
@@ -24,10 +26,13 @@
     "@fullcalendar/timegrid": "^6.1.10",
     "@hookform/resolvers": "^5.2.2",
     "date-fns": "^2.30.0",
+    "ical-expander": "^3.2.0",
     "next": "^14.0.0",
+    "node-ical": "^0.25.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.0",
+    "sanitize-html": "^2.17.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -38,6 +43,7 @@
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "@types/sanitize-html": "^2.16.0",
     "autoprefixer": "^10.4.0",
     "canvas": "^3.2.1",
     "eslint": "^8.0.0",

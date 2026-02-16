@@ -6,7 +6,7 @@ A static website for ReGarden, a nonprofit dedicated to community gardens. Built
 
 - **About Page** - Organization information, mission, vision, and values
 - **Team Page** - Team member profiles (from `data/team.json`)
-- **Event Calendar** - View-only calendar; events loaded from `data/events.json` at build time
+- **Event Calendar** - View-only calendar; events from `data/events.json` at build time, or from a **Google Calendar iCal feed** when configured (see below)
 - **Volunteer Page** - Volunteering info and application form
 - **Donate Page** - Donation info and donation form
 - **Newsletter Signup** - Newsletter form (demo; hook up to your service as needed)
@@ -16,11 +16,55 @@ A static website for ReGarden, a nonprofit dedicated to community gardens. Built
 Content is driven by JSON and data files. Edit the files, then rebuild and re-upload.
 
 - **`data/content.json`** - Homepage, About, Donate, Volunteer copy and images (hero, feature cards, mission, etc.)
-- **`data/events.json`** - Event calendar entries (array of events with `id`, `title`, `date`, `startTime`, `endTime`, `location`, `description`, `type`, `contactPerson`, `contactEmail`)
+- **`data/events.json`** - Event calendar entries (used only when Google Calendar is not configured; see **Google Calendar** below)
 - **`data/team.json`** - Team members (id, name, role, email, phone, bio, socialLinks)
 - **`public/images/`** - Add or replace images; reference in content as `/images/...`
 
 After editing, run `npm run build` and deploy the generated `out/` folder.
+
+### Event calendar: Google Calendar integration
+
+You can drive the event calendar from a **public or private Google Calendar** so events are managed in Google’s UI and only displayed on the site.
+
+#### Create a public Google Calendar (one-time setup)
+
+1. **Open Google Calendar**  
+   Go to [calendar.google.com](https://calendar.google.com) and sign in.
+
+2. **Create a calendar (optional)**  
+   If you don’t want to use your main calendar:
+   - Click **Other calendars** (left sidebar) → **Create new calendar**.
+   - Name it (e.g. “ReGarden events”), set time zone, then **Create calendar**.
+
+3. **Make the calendar public**
+   - Top right: click the **gear** → **Settings**.
+   - Under **Settings for my calendars**, click the **name** of the calendar you want to share.
+   - Under **Access permissions for events**, check **Make available to public**.
+   - Choose **See all event details** so event titles, times, and descriptions are visible (or **See only free/busy** to hide details).
+   - Click **OK**.  
+   *Note: You can only change these settings on the desktop site, not in the mobile app.*
+
+4. **Get the public iCal URL**
+   - Still in **Settings**, with that calendar selected.
+   - Scroll to **Integrate calendar**.
+   - Copy **Public address in iCal format** (the link that ends in `.ics`).  
+   This is the URL you’ll use for the site. The iCal link only works when the calendar is public.
+
+5. **Use the URL in this project**  
+   See below for build-time or page-load options.
+
+**If you already have a calendar:** In [Google Calendar](https://calendar.google.com) go to **Settings** → your calendar → **Integrate calendar**. Use **Public address in iCal format** (or `https://calendar.google.com/calendar/ical/{CALENDAR_ID}/public/basic.ics`). For a private feed use **Secret address in iCal format** (keep that URL secret).
+
+2. **Set the URL**
+   ```bash
+   export GOOGLE_CALENDAR_ICAL_URL="https://calendar.google.com/calendar/ical/..."
+   npm run build
+   ```
+   Or add `GOOGLE_CALENDAR_ICAL_URL` to your deployment environment (e.g. in your CI or host’s env vars) so each build fetches the latest events.
+3. **Behaviour**
+   - **Build-time fetch:** Set `GOOGLE_CALENDAR_ICAL_URL` (not public). Events are fetched when you run `npm run build` and baked into the static site. Use this for private/secret calendar URLs so the URL never appears in the client.
+   - **Fetch on page load:** Set `NEXT_PUBLIC_GOOGLE_CALENDAR_ICAL_URL` so the calendar is fetched in the browser when a user opens the events page. Events stay up to date without rebuilding. Use only with **public** calendar URLs (the URL is visible in the client). If the feed is blocked by CORS, the page will show an error and you can use build-time fetch instead.
+   - If neither is set, the site uses `data/events.json` as before.
 
 ## Tech Stack
 
@@ -104,7 +148,7 @@ regarden/
 ├── app/                    # Next.js App Router (static export)
 │   ├── about/              # About page
 │   ├── team/               # Team page
-│   ├── events/             # Events page (events from data/events.json at build time)
+│   ├── events/             # Events page (data/events.json or Google Calendar iCal when configured)
 │   ├── volunteer/          # Volunteer page
 │   ├── donate/             # Donate page
 │   ├── layout.tsx          # Root layout
