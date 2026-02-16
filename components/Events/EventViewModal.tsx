@@ -99,14 +99,7 @@ export default function EventViewModal({ event, onClose }: EventViewModalProps) 
               <p className="text-sm font-semibold text-primary-400 mb-2">Contact</p>
               <div className="space-y-1 text-slate-200">
                 {event.contactPerson && <p>{event.contactPerson}</p>}
-                {event.contactEmail && (
-                  <a
-                    href={`mailto:${event.contactEmail}`}
-                    className="text-primary-400 hover:text-primary-300 hover:underline"
-                  >
-                    {event.contactEmail}
-                  </a>
-                )}
+                {event.contactEmail && <p>{event.contactEmail}</p>}
               </div>
             </div>
           )}

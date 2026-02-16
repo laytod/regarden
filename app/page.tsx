@@ -1,11 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import NewsletterSignup from '@/components/Forms/NewsletterSignup'
 import { getContent } from '@/lib/content'
 
 export default function Home() {
   const content = getContent()
-  const { hero, featureCards, newsletter } = content.homepage
+  const { hero, featureCards } = content.homepage
 
   return (
     <div className="flex flex-col">
@@ -65,21 +64,6 @@ export default function Home() {
                 <p className="text-slate-200">{card.description}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-16 bg-slate-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-slate-700/60 p-8 rounded-lg shadow-lg border border-purple-500/30">
-            <h2 className="text-3xl font-bold text-purple-300 mb-4 text-center">
-              {newsletter.heading}
-            </h2>
-            <p className="text-slate-200 text-center mb-6">
-              {newsletter.description}
-            </p>
-            <NewsletterSignup />
           </div>
         </div>
       </section>

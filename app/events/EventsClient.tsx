@@ -222,14 +222,7 @@ export default function EventsClient({
                       Contact:{' '}
                       {event.contactPerson && <span>{event.contactPerson}</span>}
                       {event.contactPerson && event.contactEmail && ' · '}
-                      {event.contactEmail && (
-                        <a
-                          href={`mailto:${event.contactEmail}`}
-                          className="text-primary-400 hover:underline"
-                        >
-                          {event.contactEmail}
-                        </a>
-                      )}
+                      {event.contactEmail && <span>{event.contactEmail}</span>}
                     </p>
                   )}
                 </div>

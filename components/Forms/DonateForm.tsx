@@ -52,7 +52,7 @@ export default function DonateForm() {
         </div>
         <div className="mb-4">
           <Image
-            src="/images/Screenshot%202026-01-20%20at%2012.51.01%E2%80%AFAM.png"
+            src="/images/cash-app-qr-code.png"
             alt="Cash App QR Code for RegardenUS"
             width={192}
             height={192}
