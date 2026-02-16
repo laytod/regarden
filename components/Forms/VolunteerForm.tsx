@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { submitForm } from '@/lib/submitForm'
 
 interface VolunteerFormData {
   firstName: string
@@ -18,15 +19,13 @@ export default function VolunteerForm() {
   const [submitted, setSubmitted] = useState(false)
   const { register, handleSubmit, formState: { errors }, reset } = useForm<VolunteerFormData>()
 
-  const onSubmit = async (data: VolunteerFormData) => {
-    // In a real application, this would send data to an API
-    console.log('Volunteer application:', data)
-    
-    // For demo purposes, we'll just log and show success message
+  const onSubmit = (data: VolunteerFormData) => {
+    submitForm(
+      'Volunteer Application – ReGarden',
+      { ...data, interests: Array.isArray(data.interests) ? data.interests.join(', ') : data.interests }
+    )
     setSubmitted(true)
     reset()
-    
-    // Reset success message after 5 seconds
     setTimeout(() => setSubmitted(false), 5000)
   }
 

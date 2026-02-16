@@ -9,7 +9,6 @@ A static website for ReGarden, a nonprofit dedicated to community gardens. Built
 - **Event Calendar** - View-only calendar; events from `data/events.json` at build time, or from a **Google Calendar iCal feed** when configured (see below)
 - **Volunteer Page** - Volunteering info and application form
 - **Donate Page** - Donation info and donation form
-- **Newsletter Signup** - Newsletter form (demo; hook up to your service as needed)
 
 ## Editing Content
 
@@ -61,10 +60,7 @@ You can drive the event calendar from a **public or private Google Calendar** so
    npm run build
    ```
    Or add `GOOGLE_CALENDAR_ICAL_URL` to your deployment environment (e.g. in your CI or host’s env vars) so each build fetches the latest events.
-3. **Behaviour**
-   - **Build-time fetch:** Set `GOOGLE_CALENDAR_ICAL_URL` (not public). Events are fetched when you run `npm run build` and baked into the static site. Use this for private/secret calendar URLs so the URL never appears in the client.
-   - **Fetch on page load:** Set `NEXT_PUBLIC_GOOGLE_CALENDAR_ICAL_URL` so the calendar is fetched in the browser when a user opens the events page. Events stay up to date without rebuilding. Use only with **public** calendar URLs (the URL is visible in the client). If the feed is blocked by CORS, the page will show an error and you can use build-time fetch instead.
-   - If neither is set, the site uses `data/events.json` as before.
+3. **Behaviour:** Events are fetched when you run `npm run build` and written to `data/events.json`. The site always reads from that file (no client-side fetch). If `GOOGLE_CALENDAR_ICAL_URL` is not set, the build skips the fetch and any existing `data/events.json` is used.
 
 ## Tech Stack
 
@@ -165,7 +161,7 @@ regarden/
 
 ## Forms
 
-Newsletter, volunteer, and donation forms use client-side validation. In production, wire them to your chosen services (e.g. Formspree, email backend, payment processor).
+Volunteer and donation (tax receipt) forms use client-side validation. On submit, they open the user's default email client with the form data pre-filled (mailto), addressed to the site contact email.
 
 ## License
 

@@ -84,7 +84,6 @@ function getDefaultContent(): SiteContent {
         missionText: '',
       },
       featureCards: [],
-      newsletter: { heading: 'Stay Updated', description: '' },
     },
     about: {
       pageTitle: 'About ReGarden',
