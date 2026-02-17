@@ -216,6 +216,22 @@ rsync -avz -e ssh /path/to/regarden/build/ YOUR_CPANEL_USER@regardenus.org:~/pub
 
 If SSH is on a non-default port, use e.g. `-e "ssh -p 22"` (GoDaddy cPanel typically uses 22).
 
+### 5.4 Option 4: npm run deploy (build + rsync)
+
+From the project root you can build and upload in one step:
+
+```bash
+# Set in .env.local (see .env.example):
+# DEPLOY_HOST=your_cpanel_user@regardenus.org
+# DEPLOY_PATH=~/public_html
+# Optional: DEPLOY_SSH_KEY=~/.ssh/regarden  DEPLOY_SSH_PORT=22
+
+npm run deploy           # build + sync out/ to DEPLOY_HOST:DEPLOY_PATH
+npm run deploy:dry-run   # build + show what would be uploaded
+```
+
+This runs `npm run build` then rsyncs the `out/` folder to your cPanel `public_html` (or `DEPLOY_PATH`). It uses `--delete` so the remote site matches the build.
+
 ---
 
 ## Official GoDaddy help links

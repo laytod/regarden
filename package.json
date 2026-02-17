@@ -10,6 +10,8 @@
     "dev": "npm run clean && next dev",
     "dev:fast": "next dev",
     "build": "node scripts/fetch-calendar-to-json.mjs && npm run clean && next build",
+    "deploy": "npm run build && node scripts/deploy.mjs",
+    "deploy:dry-run": "npm run build && node scripts/deploy.mjs --dry-run",
     "serve": "npx serve out",
     "serve:nginx": "docker run --rm -v \"$(pwd)/out:/usr/share/nginx/html:ro\" -p 8080:80 nginx:alpine",
     "serve:ngrok": "npx ngrok http 8080",
