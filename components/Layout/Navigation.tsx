@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { assetUrl } from '@/lib/assetUrl'
 import { useState } from 'react'
 
 export default function Navigation() {
@@ -26,7 +27,7 @@ export default function Navigation() {
             <Link href="/" className="flex items-center">
               <div className="relative h-20 w-20 bg-white rounded-lg overflow-hidden">
                 <Image
-                  src="/images/logo/regarden-logo.png"
+                  src={assetUrl('/images/logo/regarden-logo.png')}
                   alt="ReGarden Logo"
                   fill
                   className="object-contain rounded-md scale-125"

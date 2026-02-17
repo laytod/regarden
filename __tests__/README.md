@@ -1,10 +1,8 @@
-# Test Suite for ReGarden Admin Panel
+# Test Suite for ReGarden
 
 ## Overview
 
-This test suite covers Phase 1 (Authentication Foundation), Phase 2 (Content Management System), and Phase 3 (Image Management) to ensure we don't break things as we move forward.
-
-**Policy (see `ADMIN_PANEL_IMPLEMENTATION_PLAN.md`):** Tests must be written for each phase before that phase is marked complete. Each phase has a **Tests** section in the plan; implement those tests and keep this README updated as you add phases.
+This test suite covers core utilities for the ReGarden nonprofit website: content management, calendar parsing, form submission, time formatting, and HTML sanitization. Tests use mocked dependencies (file system, node-ical) so they run quickly without external I/O.
 
 ## Running Tests
 
@@ -21,107 +19,43 @@ npm run test:coverage
 
 ## Test Structure
 
-### Unit Tests
+### Unit Tests (`lib/`)
 
-- **`lib/auth.test.ts`** - Tests for authentication utilities
-  - User CRUD operations
-  - Password hashing and verification
-  - User lookup functions
+- **`lib/content.test.ts`** - Content utilities
+  - getContent: read, parse, defaults on error
+  - updateContent: merge partial updates, write to file
 
-- **`lib/validation.test.ts`** - Tests for Zod validation schemas
-  - Login validation
-  - User creation validation
-  - Password reset validation
-  - Content update schema (partial updates, reject empty)
+- **`lib/parseIcsClient.test.ts`** - iCal parsing for event calendar
+  - parseIcsToEvents: parses ICS string to event shape (title, date, startTime, endTime, location, description)
 
-- **`lib/security.test.ts`** - Tests for security utilities
-  - Password reset token generation
-  - Token verification
-  - Token expiration handling
+- **`lib/formatTime.test.ts`** - Time formatting for display
+  - formatTime12h: 24h → 12h with AM/PM, padding, invalid input handling
 
-- **`lib/content.test.ts`** - Tests for content utilities
-  - getContent: read, parse, defaults on error, normalize partial
-  - updateContent: merge partial, write, replace arrays
+- **`lib/submitForm.test.ts`** - Volunteer/donation form submission
+  - submitForm: builds mailto URL with subject and formatted body
+  - Field formatting (single values, arrays)
+  - Callback receives URL for opening email client
 
-- **`lib/images.test.ts`** - Tests for image utilities (Phase 3)
-  - validateImageFile: accept JPEG/PNG/GIF/WebP, reject invalid type/size
-  - isAllowedImagePath: allow /images/*, reject traversal and invalid paths
-  - listImages: scan dir, subdirs, filter by extension
-  - saveImage: write buffer, subfolder, sanitize
-  - deleteImage: unlink, path validation, not found
+- **`lib/googleCalendar.test.ts`** - Google Calendar iCal fetch (Node env)
+  - fetchGoogleCalendarEvents: maps VEVENT to CalendarEvent, sorts by date/time
+  - Returns empty array when URL returns no data
+  - Skips non-VEVENT entries
 
-### API Tests
-
-- **`api/admin/content.test.ts`** - Tests for content API
-  - GET: 401 when unauthenticated, 200 + content when authenticated
-  - PUT: 401 when unauthenticated, 400 on invalid body, 200 on valid update
-
-- **`api/admin/images.test.ts`** - Tests for images API (Phase 3)
-  - GET: 401 when unauthenticated, 200 + images when authenticated
-  - POST: 401, 400 no file / validation fail, 200 upload success
-  - DELETE: 401, 400 missing/invalid path, 404 not found, 200 success
-
-### Component Tests
-
-- **`components/Auth/LoginForm.test.tsx`** - Tests for login form
-  - Form rendering
-  - Input validation
-  - Login submission
-  - Error handling
-  - Success redirect
-
-- **`components/Admin/ContentSection.test.tsx`** - Tests for content section
-  - Renders title and children
-  - Optional description
-
-- **`components/Admin/ContentEditor.test.tsx`** - Tests for content editor
-  - Loading state
-  - Form render after fetch
-  - Error on fetch failure
-  - Save (PUT) and success message
-
-- **`components/Admin/ImageUploader.test.tsx`** - Tests for image upload (Phase 3)
-  - Renders upload section, subfolder input, drop zone
-  - Uploading state, onUploadSuccess, onUploadError
-
-- **`components/Admin/ImageManager.test.tsx`** - Tests for image manager (Phase 3)
-  - Loading, gallery after fetch, error + retry
-
-- **`components/Admin/ImagePicker.test.tsx`** - Tests for image picker (Phase 3)
-  - Renders label, input, choose button; value via input
-  - Modal open/fetch, select image, close
-
-## Test Coverage Goals
-
-- **Phase 1**: Aim for 80%+ coverage of authentication-related code
-- **Phase 3**: Aim for 80%+ coverage of image-related code (lib/images, API, components)
-- Focus on critical paths:
-  - User authentication
-  - Password security
-  - Route protection
-  - Input validation
+- **`lib/sanitizeHtml.test.ts`** - HTML sanitization for event descriptions
+  - sanitizeEventDescription: allows safe tags (bold, italic, links, breaks)
+  - Strips script and style tags
+  - Strips dangerous attributes (e.g. onclick)
 
 ## Adding New Tests
 
-When adding new features (and **before** marking a phase complete):
-
-1. Create test file in `__tests__/` directory (see the plan’s **Tests** section for each phase).
-2. Follow naming convention: `*.test.ts` or `*.test.tsx`
-3. Group related tests using `describe` blocks
-4. Use descriptive test names
-5. Mock external dependencies (file system, NextAuth, etc.)
-6. Update this README with the new test file and what it covers.
-
-## Continuous Integration
-
-These tests should be run:
-- Before committing code
-- In CI/CD pipeline
-- Before deploying to production
+1. Create test file in `__tests__/` (mirror the source path, e.g. `__tests__/lib/foo.test.ts` for `lib/foo.ts`)
+2. Use naming convention: `*.test.ts` or `*.test.tsx`
+3. Group related tests with `describe` blocks
+4. Mock external dependencies (file system, node-ical, etc.)
+5. Update this README with the new test file and what it covers
 
 ## Notes
 
 - Tests use mocked file system operations (no actual file I/O)
-- NextAuth is mocked to avoid requiring actual authentication
-- Router is mocked to avoid Next.js routing issues
+- `lib/content.test.ts` and `lib/googleCalendar.test.ts` use `@jest-environment node` (Node APIs)
 - All tests should be fast and isolated

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import DonateForm from '@/components/Forms/DonateForm'
 import { getContent } from '@/lib/content'
+import { assetUrl } from '@/lib/assetUrl'
 
 export default function Donate() {
   const content = getContent()
@@ -22,7 +23,7 @@ export default function Donate() {
         {heroImage && (
           <div className="relative min-h-[34vh] w-full md:min-h-0 md:aspect-video overflow-hidden">
             <Image
-              src={heroImage}
+              src={assetUrl(heroImage)}
               alt="ReGarden community garden"
               fill
               className="object-cover"

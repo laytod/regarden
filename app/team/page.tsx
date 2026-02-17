@@ -2,6 +2,7 @@ import Image from 'next/image'
 import TeamMember from '@/components/Team/TeamMember'
 import teamData from '@/data/team.json'
 import { getContent } from '@/lib/content'
+import { assetUrl } from '@/lib/assetUrl'
 
 export default function Team() {
   const content = getContent()
@@ -23,7 +24,7 @@ export default function Team() {
                   className="relative overflow-hidden rounded-lg border border-purple-500/30 shadow-lg"
                 >
                   <Image
-                    src={src}
+                    src={assetUrl(src)}
                     alt="ReGarden community"
                     fill
                     className="object-cover"
@@ -78,7 +79,7 @@ export default function Team() {
 
       <hr className="border-purple-500/30 my-6" />
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
         {teamData.map((member) => (
           <TeamMember key={member.id} member={member} />
         ))}

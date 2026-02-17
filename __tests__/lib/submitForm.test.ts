@@ -7,7 +7,7 @@ describe('submitForm', () => {
       captured = url
     })
     expect(captured).toContain('mailto:')
-    expect(captured).toContain('katieomartinek@gmail.com')
+    expect(captured).toContain('katie@regardenus.org')
     expect(captured).toContain(encodeURIComponent('Test Subject'))
     expect(captured).toContain(encodeURIComponent('Name: Jane'))
     expect(captured).toContain(encodeURIComponent('Amount: 50'))

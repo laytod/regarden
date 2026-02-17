@@ -2,7 +2,7 @@
  * Open the user's email client with form data pre-filled via mailto.
  */
 
-const RECIPIENT_EMAIL = 'katieomartinek@gmail.com'
+const RECIPIENT_EMAIL = 'katie@regardenus.org'
 
 /** Optional: pass to override navigation (e.g. in tests). Otherwise sets window.location.href. */
 export function submitForm(

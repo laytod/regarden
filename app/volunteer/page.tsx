@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import VolunteerForm from '@/components/Forms/VolunteerForm'
 import { getContent } from '@/lib/content'
+import { assetUrl } from '@/lib/assetUrl'
 
 export default function Volunteer() {
   const content = getContent()
@@ -30,7 +31,7 @@ export default function Volunteer() {
         {backgroundImage && (
           <>
             <Image
-              src={backgroundImage}
+              src={assetUrl(backgroundImage)}
               alt="Sunflowers in the ReGarden community garden"
               fill
               className="object-cover object-top"

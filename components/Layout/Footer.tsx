@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { assetUrl } from '@/lib/assetUrl'
 
 export default function Footer() {
   return (
@@ -11,7 +12,7 @@ export default function Footer() {
             <div className="flex items-center mb-4">
               <div className="relative h-20 w-20 mr-3 bg-white rounded-lg overflow-hidden">
                 <Image
-                  src="/images/logo/regarden-logo.png"
+                  src={assetUrl('/images/logo/regarden-logo.png')}
                   alt="ReGarden Logo"
                   fill
                   className="object-contain rounded-md scale-125"
@@ -87,10 +88,10 @@ export default function Footer() {
             <p className="text-slate-300 text-sm">
               To join our newsletter, email us at{' '}
               <a
-                href="mailto:katieomartinek@gmail.com"
+                href="mailto:katie@regardenus.org"
                 className="text-primary-400 hover:text-primary-300 transition-colors"
               >
-                katieomartinek@gmail.com
+                katie@regardenus.org
               </a>
               .
             </p>

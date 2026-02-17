@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { getContent } from '@/lib/content'
+import { assetUrl } from '@/lib/assetUrl'
 
 export default function About() {
   const content = getContent()
@@ -15,7 +16,7 @@ export default function About() {
         {mission.image && (
           <>
             <Image
-              src={mission.image}
+              src={assetUrl(mission.image)}
               alt="ReGarden community members at the garden"
               fill
               className="object-cover object-[center_75%] md:object-center scale-[1.6] md:scale-100 origin-[center_75%] md:origin-center"
@@ -46,7 +47,7 @@ export default function About() {
         {values.image && (
           <>
             <Image
-              src={values.image}
+              src={assetUrl(values.image)}
               alt="Sunflower from ReGarden"
               fill
               className="object-cover"

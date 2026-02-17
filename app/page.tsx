@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { getContent } from '@/lib/content'
+import { assetUrl } from '@/lib/assetUrl'
 
 export default function Home() {
   const content = getContent()
@@ -12,7 +13,7 @@ export default function Home() {
       <section className="relative py-20 border-b border-purple-800/30 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src={hero.backgroundImage}
+            src={assetUrl(hero.backgroundImage)}
             alt=""
             fill
             className="object-cover"

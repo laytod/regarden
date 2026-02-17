@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { submitForm } from '@/lib/submitForm'
+import { assetUrl } from '@/lib/assetUrl'
 
 interface DonateFormData {
   firstName: string
@@ -49,7 +50,7 @@ export default function DonateForm() {
         </div>
         <div className="mb-4">
           <Image
-            src="/images/cash-app-qr-code.png"
+            src={assetUrl('/images/cash-app-qr-code.png')}
             alt="Cash App QR Code for RegardenUS"
             width={192}
             height={192}
