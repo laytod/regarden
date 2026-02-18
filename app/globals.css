@@ -32,19 +32,21 @@ body {
 }
 
 .fc-event.event-type-workshop {
-  background-color: #7b2d8e;  /* Logo purple */
-  border-color: #7b2d8e;
+  background-color: #e9d5ff;  /* Light purple */
+  border-color: #c084fc;
+  color: #3b0764;
 }
 
 .fc-event.event-type-event {
-  background-color: #1a5f2a;  /* Logo dark green */
-  border-color: #1a5f2a;
+  background-color: #e9d5ff;  /* Light purple */
+  border-color: #c084fc;
+  color: #3b0764;
 }
 
 .fc-event.event-type-meeting {
-  background-color: #a855f7;  /* Light purple */
-  border-color: #a855f7;
-  color: white !important;
+  background-color: #e9d5ff;  /* Light purple */
+  border-color: #c084fc;
+  color: #3b0764;
 }
 
 .fc-event:hover {

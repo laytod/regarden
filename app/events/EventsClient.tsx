@@ -174,25 +174,7 @@ export default function EventsClient({ initialEvents }: EventsClientProps) {
         </section>
       )}
 
-      <div className="mb-8">
-        {/* Event Type Legend */}
-        <div className="flex flex-wrap gap-4 mb-6 text-sm">
-          <div className="flex items-center">
-            <span className="w-4 h-4 bg-purple-600 rounded mr-2"></span>
-            <span className="text-slate-200">Workshop</span>
-          </div>
-          <div className="flex items-center">
-            <span className="w-4 h-4 bg-primary-600 rounded mr-2"></span>
-            <span className="text-slate-200">Event</span>
-          </div>
-          <div className="flex items-center">
-            <span className="w-4 h-4 bg-purple-500 rounded mr-2"></span>
-            <span className="text-slate-200">Meeting</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-[rgb(220,240,225)] rounded-lg shadow-lg p-4 border border-primary-500/30">
+      <div className="mb-8 bg-[rgb(220,240,225)] rounded-lg shadow-lg p-4 border border-primary-500/30">
         <FullCalendar
           ref={calendarRef}
           plugins={[dayGridPlugin, interactionPlugin]}
