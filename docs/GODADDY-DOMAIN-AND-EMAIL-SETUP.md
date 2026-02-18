@@ -3,7 +3,7 @@
 This guide is for the person who has (or has access to) the GoDaddy account where **regardenus.org** was purchased, along with any hosting plan. It covers:
 
 1. **Domain** – confirming the domain and DNS
-2. **Email addresses** – forwarding-only @regardenus.org addresses that deliver to each member’s personal email
+2. **Email addresses** – @regardenus.org addresses (forwarding-only or full inboxes) for each member
 3. **File uploads** – getting site files onto cPanel (File Manager, SCP, rsync) using the main cPanel account and SSH key auth
 
 ---
@@ -43,19 +43,28 @@ If the **website is hosted elsewhere** (e.g. Netlify, Vercel, another host):
 
 ---
 
-## 2. Email setup for ReGarden members (forwarding-only)
+## 2. Email setup for ReGarden members
 
-Create **forwarding-only** addresses like **stacy@regardenus.org** that deliver mail to each person’s existing personal email (Gmail, etc.). There is no separate inbox—mail goes straight to the address you set.
+You can set up email addresses in two ways. Choose per person:
+
+- **Option A: Forwarding-only** — Mail sent to `name@regardenus.org` forwards to their personal email (Gmail, etc.). No separate inbox; mail goes straight to their personal account.
+- **Option B: Full inbox** — They get a real `name@regardenus.org` inbox they can log into (Webmail or email app). They can also forward it to their personal email if they want.
 
 **Current team (from the site):**
 
 | Name   | Role                      | Current email in site        |
 |--------|---------------------------|-----------------------------|
 | Katie  | President                 | katie@regardenus.org        |
-| Stacy  | Secretary                 | stacy@regardenus.org        |
+| Stacey  | Secretary                 | stacey@regardenus.org        |
 | Kevin  | Treasurer                 | kevin@regardenus.org        |
 | Treasure | Board Member / Consultant | treasure@regardenus.org   |
 | Tricia | Co-founder                | tricia@regardenus.org       |
+
+---
+
+### Option A: Forwarding-only addresses
+
+Use this if they want mail to `name@regardenus.org` to go straight to their personal email (Gmail, etc.). No separate inbox.
 
 **Steps:**
 
@@ -63,17 +72,58 @@ Create **forwarding-only** addresses like **stacy@regardenus.org** that deliver 
 2. In the left menu, click **Forwards**.
 3. Click **Add Forward**.
 4. For each address:
-   - **Forwarding address name:** the part before @ (e.g. `stacy` → **stacy@regardenus.org**).
+   - **Forwarding address name:** the part before @ (e.g. `stacey` → **stacey@regardenus.org**).
    - **Forward to:** their personal email (e.g. their Gmail). You can enter **multiple addresses** separated by commas if one address should forward to several people.
 5. Click **Save**.
 
 **Example:**
 
-- **stacy@regardenus.org** → forward to Stacy’s personal email  
+- **stacey@regardenus.org** → forward to Stacey’s personal email  
 - **kevin@regardenus.org** → forward to Kevin’s personal email  
 - **katie@regardenus.org** → forward to katieomartinek@gmail.com  
 
 **Note:** Forwarding-only addresses require the **Email Forwarding** product (sometimes included with the domain or workspace). If you don’t see **Forwards**, check **My Products** in GoDaddy to see if that product is on the account.
+
+---
+
+### Option B: Full email inboxes (Professional Email)
+
+Use this if they want a real inbox at `name@regardenus.org` they can log into and use like normal email (Webmail or email app like Outlook, Apple Mail, Gmail app).
+
+**Steps:**
+
+1. Sign in at [godaddy.com](https://www.godaddy.com).
+2. Open the **Email & Office** (or **Workspace**) dashboard: [productivity.godaddy.com](https://productivity.godaddy.com)
+3. Click **Add user** (or **Add mailbox**).
+4. Choose the product (e.g. **Professional Email** or **Professional Email powered by Titan**).
+5. Select domain **regardenus.org**.
+6. For each member, create one address:
+   - **Email:** e.g. `stacey@regardenus.org`, `kevin@regardenus.org`, etc.
+   - **First name / Last name**
+   - **Password** (different from the main GoDaddy account; share it securely with them).
+   - **Recovery email** (e.g. their personal Gmail).
+7. Click **Create**. Repeat for each team member.
+
+**After creation:**
+
+Each person can:
+
+- **Sign in to Webmail** at [email.godaddy.com](https://email.godaddy.com) with their `@regardenus.org` address and password, or
+- **Add the account in an email app** (Outlook, Apple Mail, Gmail app, Thunderbird, etc.) using the server settings GoDaddy shows for that mailbox.
+
+**Optional: Forward to personal email**
+
+If they want copies to also go to their Gmail (or other address):
+
+1. Have them sign in to **Webmail** at [email.godaddy.com](https://email.godaddy.com) with their `@regardenus.org` address and password.
+2. Go to **Settings** → **All Settings** (or **Preferences**).
+3. Open **Mail** → **Rules** → **Auto forward** (or **Forwarding**).
+4. Turn **Auto forward** (or **Forward emails to**) **On**.
+5. Enter the destination address (e.g. their Gmail).
+6. Choose whether to **keep a copy** in the GoDaddy inbox (optional; copies count toward storage).
+7. Save / Apply.
+
+**Professional Email powered by Titan:** Usually **Settings** → **Preferences** → **Forwarding** → **Add** → enter destination and confirm with the code sent to that address.
 
 ---
 
@@ -83,14 +133,20 @@ Create **forwarding-only** addresses like **stacy@regardenus.org** that deliver 
 |-------------------------------|----------------|
 | See domain / DNS              | GoDaddy → My Products → regardenus.org → DNS |
 | Add forwarding-only addresses | [productivity.godaddy.com](https://productivity.godaddy.com) → Forwards → Add Forward |
+| Add full email inboxes        | [productivity.godaddy.com](https://productivity.godaddy.com) → Add user → Professional Email |
+| Forward from inbox to Gmail   | [email.godaddy.com](https://email.godaddy.com) → Settings → Mail → Auto forward |
 
 ---
 
 ## 4. Suggested plan for ReGarden
 
 1. **Domain:** Confirm **regardenus.org** is active and DNS points to your website host.
-2. Create **forwarding-only** addresses for each team member (Section 2); set **Forward to** to their personal email.
-3. Update **data/team.json** if you change any displayed email addresses on the site.
+2. **Email:** For each team member, choose:
+   - **Forwarding-only** (Option A) if they want mail to go straight to their personal email, or
+   - **Full inbox** (Option B) if they want a real `@regardenus.org` inbox they can log into.
+3. Create the addresses (Section 2, Option A or B).
+4. If using full inboxes, share passwords securely and optionally have them set up auto-forward to their personal email.
+5. Update **data/team.json** if you change any displayed email addresses on the site.
 
 ---
 
@@ -209,6 +265,8 @@ rsync -avz --dry-run -e ssh /path/to/regarden/build/ YOUR_CPANEL_USER@regardenus
 rsync -avz -e ssh /path/to/regarden/build/ YOUR_CPANEL_USER@regardenus.org:~/public_html/
 ```
 
+rsync -avz --dry-run -e ssh . ssh -i ~/.ssh/regarden qwi3tz4k6wc6@198.12.235.156
+
 - `-a` = archive (preserves permissions, etc.)
 - `-v` = verbose
 - `-z` = compress over the wire
@@ -237,6 +295,9 @@ This runs `npm run build` then rsyncs the `out/` folder to your cPanel `public_h
 ## Official GoDaddy help links
 
 - [Create, edit or delete forwards (Email Forwarding)](https://www.godaddy.com/help/create-edit-or-delete-forwards-with-email-forwarding-42254)
+- [Set up Professional Email](https://www.godaddy.com/help/set-up-professional-email-32288)
+- [Add Professional Email users](https://www.godaddy.com/help/add-professional-email-user-email-accounts-42567) (multiple accounts)
+- [Forward incoming email to another address (Professional Email)](https://www.godaddy.com/help/forward-incoming-email-to-another-email-address-32282)
 - [Manage DNS records](https://www.godaddy.com/help/manage-dns-records-680)
 - [Upload files using File Manager](https://www.godaddy.com/help/upload-files-using-my-web-hosting-cpanel-file-manager-3239)
 - [Enable SSH for Web Hosting (cPanel)](https://www.godaddy.com/help/enable-ssh-for-my-web-hosting-cpanel-account-16102)

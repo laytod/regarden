@@ -6,19 +6,19 @@
     "email": "katie@regardenus.org",
     "phone": "",
     "bio": "In the early days of 2021, Katie was working in a management salaried position in construction and dreaming of her wedding day just a few months away. What more could she want? Soon she would suffer a horrific open-ended trauma that changed the trajectory of her life. After wrestling with anger and grief for the following year she met God in the garden and the vision of ReGarden was formed. A place where both life and death came together to create something fresh and beautiful, where healing takes place. In search of cultivating this dream, Katie joined the Sumner County Master Gardener's volunteer program and quickly changed professions to apprentice as a local tree nursery foreman. She also began learning how to harvest and process food from her own gardens and quickly grew hungry to share this knowledge with others. Soon, Katie would come across a Facebook post from Treasure Spurgeon wanting to find space for planting a community garden. Having the network and resources, Katie connected Treasure with the SCMG and met at the Westmoreland Public Library in town and thought her mission was complete. Little did she know that she would be appointed as the project manager of the Westmoreland Community Garden, and this would begin to form into something greater. Classes formed, community came together, and future plans began to blossom. Suspended between the two non-profit organizations of SCMG and Westmoreland Library quickly became financially burdensome, and Katie moved to make ReGarden legally not-for-profit. Katie has lived in Davidson and Sumner Counties her entire life. She is married to carpenter and musician, TJ Martinek, who also selflessly volunteers to help bring the vision and structure of ReGarden to fruition. Building their life in Westmoreland for more than 10 years, they have agreed to bloom where they have been planted and continue to serve the community to this day.",
-    "image": "/images/team/katie.jpg",
-    "imagePosition": "top",
+    "image": "/images/team/katie.jpeg",
+    "imagePosition": "center",
     "socialLinks": {}
   },
   {
     "id": "2",
-    "name": "Stacy",
+    "name": "Stacey",
     "role": "Secretary",
-    "email": "stacy@regardenus.org",
+    "email": "stacey@regardenus.org",
     "phone": "",
     "bio": "Stacey is a seasoned professional with a quarter of a century's experience in Residential Property Management. But it's not just property she has a knack for managing. Stacey has a green thumb and a heart that beats for gardening and preserving food. Her journey into the world of gardening sprouted from a desire to provide healthy food options for her family. It blossomed into a love for preserving the traditions of our ancestors, traditions that risk being forgotten if not nurtured. Stacey believes in the power of shared knowledge. She finds joy in teaching budding gardeners the ropes and also learning from their experiences. Despite being in an urban setting with limited space, she has found innovative ways to cultivate her garden. She's a testament to the fact that you don't need a sprawling backyard to grow your own food. With a bit of creativity and a lot of love, even the smallest urban garden can yield a bountiful harvest.",
-    "image": "/images/team/stacy.jpg",
-    "imagePosition": "top",
+    "image": "/images/team/stacey.jpg",
+    "imagePosition": "50% 20%",
     "socialLinks": {}
   },
   {
@@ -29,7 +29,7 @@
     "phone": "",
     "bio": "Kevin's professional career as a Certificate Public Accountant for over 35 years began in public accounting but the majority of his career has been as Chief Financial Officer for private industry. He believes in using his accounting experience to help others which has led to volunteer rolls as Treasurer at his church, several not-for-profit organizations, homeowner's associations, and now ReGarden. Kevin is also passionate about serving and helping children so he and his wife, Buffy, founded and lead the Sumner County chapter of Sleep in Heavenly Peace which builds and delivers beds to kids who do not have beds of their own. A Tennessee native who has lived in Tennessee most of his life, he and his wife now call Gallatin home.",
     "image": "/images/team/kevin.jpg",
-    "imagePosition": "top",
+    "imagePosition": "50% 50%",
     "socialLinks": {}
   },
   {
@@ -45,7 +45,7 @@
   },
   {
     "id": "5",
-    "name": "Shelby Ladd",
+    "name": "Shelby",
     "role": "Board Member / Sustainable Ag Advocate",
     "email": "shelby@regardenus.org",
     "phone": "",
@@ -56,6 +56,17 @@
   },
   {
     "id": "6",
+    "name": "Lino",
+    "role": "Board Member / Land Management Consultant",
+    "email": "lino@regardenus.org",
+    "phone": "",
+    "bio": "",
+    "image": "/images/team/lino.jpeg",
+    "imagePosition": "top",
+    "socialLinks": {}
+  },
+  {
+    "id": "7",
     "name": "Tricia",
     "role": "Co-founder",
     "email": "",

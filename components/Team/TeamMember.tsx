@@ -32,7 +32,14 @@ export default function TeamMember({ member }: TeamMemberProps) {
           src={assetUrl(member.image)}
           alt={`${member.name} - ${member.role}`}
           fill
-          className={`object-cover ${member.imagePosition === 'top' ? 'object-top' : member.imagePosition === 'bottom' ? 'object-bottom' : ''}`}
+          className="object-cover"
+          style={member.imagePosition && !['top', 'bottom', 'center'].includes(member.imagePosition) 
+            ? { objectPosition: member.imagePosition } 
+            : member.imagePosition === 'top' 
+              ? { objectPosition: 'top' }
+              : member.imagePosition === 'bottom'
+                ? { objectPosition: 'bottom' }
+                : { objectPosition: 'center' }}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
