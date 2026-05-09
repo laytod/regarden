@@ -1,20 +1,10 @@
-import fs from 'fs'
-import path from 'path'
 import EventsClient from './EventsClient'
 import type { CalendarEvent } from '@/lib/googleCalendar'
+import eventsData from '@/data/events.json'
 
-function getEventsFromFile(): CalendarEvent[] {
-  try {
-    const filePath = path.join(process.cwd(), 'data', 'events.json')
-    const data = fs.readFileSync(filePath, 'utf8')
-    const parsed = JSON.parse(data)
-    return Array.isArray(parsed) ? parsed : []
-  } catch {
-    return []
-  }
-}
-
-export default async function EventsPage() {
-  const events = getEventsFromFile()
+export default function EventsPage() {
+  const events = Array.isArray(eventsData)
+    ? (eventsData as CalendarEvent[])
+    : []
   return <EventsClient initialEvents={events} />
 }

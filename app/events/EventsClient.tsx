@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -23,17 +23,58 @@ export interface Event {
   contactEmail: string
 }
 
+function localYmd(d: Date): string {
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
+function localYearMonth(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+}
+
+/**
+ * When the current month has no events, default the grid to the next month that
+ * does; if all events are in the past, show the month of the latest event so
+ * entries are visible without hunting through prev/next.
+ *
+ * (No special-case for year < 2026: forcing Jan 2026 made the grid look
+ * empty whenever the machine clock was still in 2025.)
+ */
+function calendarInitialDate(events: Event[]): string | undefined {
+  if (events.length === 0) return undefined
+  const now = new Date()
+  const ymd = localYmd(now)
+  const monthPrefix = ymd.slice(0, 7)
+  const hasInCurrentMonth = events.some((e) => e.date.startsWith(monthPrefix))
+  if (hasInCurrentMonth) return undefined
+
+  const sorted = [...events].sort((a, b) => a.date.localeCompare(b.date))
+  const next = sorted.find((e) => e.date >= ymd)
+  if (next) return next.date
+
+  return sorted[sorted.length - 1].date
+}
+
 interface EventsClientProps {
   initialEvents: Event[]
 }
 
+function toLocalIsoDateTime(date: string, timeHHMM: string): string {
+  const t = timeHHMM.length === 5 ? `${timeHHMM}:00` : timeHHMM
+  return `${date}T${t}`
+}
+
 export default function EventsClient({ initialEvents }: EventsClientProps) {
   const [events, setEvents] = useState<Event[]>(initialEvents)
+
+  useEffect(() => {
+    setEvents(initialEvents)
+  }, [initialEvents])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
-  const [displayMonth, setDisplayMonth] = useState(() =>
-    new Date().toISOString().slice(0, 7)
-  )
+  const [displayMonth, setDisplayMonth] = useState(() => localYearMonth(new Date()))
   const [showMonthPicker, setShowMonthPicker] = useState(false)
   const [pickerYear, setPickerYear] = useState(() =>
     Math.max(2026, new Date().getFullYear())
@@ -46,8 +87,8 @@ export default function EventsClient({ initialEvents }: EventsClientProps) {
   ]
 
   const initialCalendarDate = useMemo(
-    () => (new Date().getFullYear() < 2026 ? '2026-01-01' : null),
-    []
+    () => calendarInitialDate(initialEvents),
+    [initialEvents]
   )
 
   const handleMonthPickerOpen = () => {
@@ -56,23 +97,45 @@ export default function EventsClient({ initialEvents }: EventsClientProps) {
     setPickerYear(Math.max(2026, y))
   }
 
-  // Convert events to FullCalendar format
-  const calendarEvents: EventInput[] = events.map((event) => ({
-    id: event.id,
-    title: event.title,
-    start: `${event.date}T${event.startTime}`,
-    end: `${event.date}T${event.endTime}`,
-    extendedProps: {
-      location: event.location,
-      description: event.description,
-      type: event.type,
-      contactPerson: event.contactPerson,
-      contactEmail: event.contactEmail,
-      startTime: event.startTime,
-      endTime: event.endTime,
-    },
-    className: `event-type-${event.type}`,
-  }))
+  // FullCalendar resets badly if `events` gets a new array reference every React render.
+  const calendarEvents: EventInput[] = useMemo(() => {
+    return events.map((event) => {
+      const allDay =
+        event.startTime === '00:00' &&
+        (event.endTime === '00:00' || event.endTime === event.startTime)
+
+      const base = {
+        id: event.id,
+        title: event.title,
+        extendedProps: {
+          location: event.location,
+          description: event.description,
+          type: event.type,
+          contactPerson: event.contactPerson,
+          contactEmail: event.contactEmail,
+          startTime: event.startTime,
+          endTime: event.endTime,
+        },
+        classNames: [`event-type-${event.type}`, 'cursor-pointer'],
+      }
+
+      if (allDay) {
+        return { ...base, start: event.date, allDay: true }
+      }
+
+      const start = toLocalIsoDateTime(event.date, event.startTime)
+      let end = toLocalIsoDateTime(event.date, event.endTime)
+      if (end <= start) {
+        const d = new Date(toLocalIsoDateTime(event.date, event.startTime))
+        d.setMinutes(d.getMinutes() + 60)
+        const hh = String(d.getHours()).padStart(2, '0')
+        const mm = String(d.getMinutes()).padStart(2, '0')
+        end = toLocalIsoDateTime(event.date, `${hh}:${mm}`)
+      }
+
+      return { ...base, start, end }
+    })
+  }, [events])
 
   const handleEventClick = (clickInfo: { event: { id: string } }) => {
     const event = events.find((e) => e.id === clickInfo.event.id)
@@ -98,17 +161,29 @@ export default function EventsClient({ initialEvents }: EventsClientProps) {
     setShowMonthPicker(false)
   }
 
-  const today = useMemo(() => new Date().toISOString().slice(0, 10), [])
   const upcomingEvents = useMemo(() => {
+    const now = new Date()
+    const todayStr = localYmd(now)
+    const monthPrefix = todayStr.slice(0, 7)
+
     return events
-      .filter((e) => e.date >= today)
+      .filter((e) => {
+        if (!e.date.startsWith(monthPrefix)) return false
+
+        const allDay =
+          e.startTime === '00:00' &&
+          (e.endTime === '00:00' || e.endTime === e.startTime)
+        if (allDay) return e.date >= todayStr
+
+        const start = new Date(toLocalIsoDateTime(e.date, e.startTime))
+        return start.getTime() >= now.getTime()
+      })
       .sort(
         (a, b) =>
-          new Date(`${a.date}T${a.startTime}`).getTime() -
-          new Date(`${b.date}T${b.startTime}`).getTime()
+          new Date(toLocalIsoDateTime(a.date, a.startTime)).getTime() -
+          new Date(toLocalIsoDateTime(b.date, b.startTime)).getTime()
       )
-      .slice(0, 3)
-  }, [events, today])
+  }, [events])
 
   const formatEventDateLong = (dateStr: string) => {
     const d = new Date(dateStr + 'T12:00:00')
@@ -122,7 +197,7 @@ export default function EventsClient({ initialEvents }: EventsClientProps) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {upcomingEvents.length > 0 && (
+      {upcomingEvents.length > 0 ? (
         <section className="mb-10" aria-labelledby="upcoming-events-heading">
           <h2 id="upcoming-events-heading" className="text-xl font-semibold text-slate-100 mb-4">
             Upcoming events
@@ -172,6 +247,13 @@ export default function EventsClient({ initialEvents }: EventsClientProps) {
             ))}
           </div>
         </section>
+      ) : (
+        events.length > 0 && (
+          <p className="mb-8 text-center text-slate-300 text-sm max-w-xl mx-auto">
+            No upcoming events on the calendar right now. Use the month view below
+            to browse scheduled dates (including earlier in the year).
+          </p>
+        )
       )}
 
       <div className="mb-8 bg-[rgb(220,240,225)] rounded-lg shadow-lg p-4 border border-primary-500/30">
@@ -179,7 +261,7 @@ export default function EventsClient({ initialEvents }: EventsClientProps) {
           ref={calendarRef}
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
-          {...(initialCalendarDate && { initialDate: initialCalendarDate })}
+          {...(initialCalendarDate != null && { initialDate: initialCalendarDate })}
           validRange={{ start: '2026-01-01' }}
           customButtons={{
             selectMonth: {
@@ -198,7 +280,6 @@ export default function EventsClient({ initialEvents }: EventsClientProps) {
           editable={false}
           selectable={false}
           height="auto"
-          eventClassNames="cursor-pointer"
           eventTimeFormat={{
             hour: 'numeric',
             minute: '2-digit',

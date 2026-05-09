@@ -3,8 +3,9 @@
  * Pre-build script: fetch Google Calendar iCal feed and write data/events.json.
  * Runs in plain Node (not Next.js bundle) so node-ical works (no BigInt issue).
  *
- * Set GOOGLE_CALENDAR_ICAL_URL in .env.local or in the environment.
- * If not set, exits successfully without writing.
+ * Set GOOGLE_CALENDAR_ICAL_URL in the environment, or in .env.local / .env (one line:
+ * GOOGLE_CALENDAR_ICAL_URL=https://...).
+ * If not set, exits 0 without writing — npm run build still succeeds (see skip message below).
  */
 
 import fs from 'fs'
@@ -16,27 +17,45 @@ const rootDir = path.resolve(__dirname, '..')
 const dataDir = path.join(rootDir, 'data')
 const outPath = path.join(dataDir, 'events.json')
 
-function loadEnvLocal() {
-  const envPath = path.join(rootDir, '.env.local')
-  try {
-    const content = fs.readFileSync(envPath, 'utf8')
-    for (const line of content.split('\n')) {
-      const m = line.match(/^GOOGLE_CALENDAR_ICAL_URL=(.*)$/)
-      if (m) {
-        const val = m[1].trim()
-        return val.replace(/^["']|["']$/g, '')
+/** Read GOOGLE_CALENDAR_ICAL_URL from the first matching line in env files. */
+function loadGoogleCalendarUrlFromFiles() {
+  for (const name of ['.env.local', '.env']) {
+    const envPath = path.join(rootDir, name)
+    try {
+      const content = fs.readFileSync(envPath, 'utf8')
+      for (const line of content.split('\n')) {
+        const m = line.match(
+          /^\s*(?:export\s+)?GOOGLE_CALENDAR_ICAL_URL\s*=\s*(.*)\s*$/
+        )
+        if (m) {
+          const val = m[1].trim().replace(/^["']|["']$/g, '')
+          if (val && !val.startsWith('#')) return val
+        }
       }
+    } catch {
+      // missing or unreadable
     }
-  } catch {
-    // no .env.local or not readable
   }
   return null
 }
 
-const url = process.env.GOOGLE_CALENDAR_ICAL_URL || loadEnvLocal()
+const rawEnv = process.env.GOOGLE_CALENDAR_ICAL_URL
+const urlFromEnv =
+  typeof rawEnv === 'string' && rawEnv.trim().length > 0
+    ? rawEnv.trim().replace(/^["']|["']$/g, '')
+    : ''
+const url = urlFromEnv || loadGoogleCalendarUrlFromFiles()
+
 if (!url || !url.startsWith('http')) {
+  console.warn(
+    '[fetch-calendar] Skipping: GOOGLE_CALENDAR_ICAL_URL is not set or invalid.\n' +
+      '  Deploy/build will keep the existing data/events.json (may be stale).\n' +
+      '  Fix: add GOOGLE_CALENDAR_ICAL_URL to .env.local (or .env), or export it before npm run deploy.'
+  )
   process.exit(0)
 }
+
+console.log('[fetch-calendar] Fetching Google Calendar iCal feed…')
 
 function pad2(n) {
   return String(n).padStart(2, '0')

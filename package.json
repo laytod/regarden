@@ -7,7 +7,7 @@
   },
   "scripts": {
     "clean": "rm -rf .next out",
-    "dev": "npm run clean && next dev",
+    "dev": "node scripts/fetch-calendar-to-json.mjs && npm run clean && next dev",
     "dev:fast": "next dev",
     "build": "node scripts/fetch-calendar-to-json.mjs && npm run clean && next build",
     "deploy": "npm run build && node scripts/deploy.mjs",
