@@ -27,16 +27,16 @@ export default function Home() {
             </h1>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
               <Link
-                href="/volunteer"
+                href="/volunteer#apply"
                 className="bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors shadow-lg"
               >
-                Get Involved
+                Volunteer
               </Link>
               <Link
-                href="/donate"
+                href="/donate#donate"
                 className="bg-purple-900/60 text-purple-200 px-8 py-3 rounded-lg font-semibold hover:bg-purple-800/60 transition-colors border-2 border-purple-400"
               >
-                Support Our Mission
+                Donate
               </Link>
             </div>
             <h2 className="text-4xl font-bold text-purple-300 mb-4 drop-shadow-lg">
@@ -56,13 +56,15 @@ export default function Home() {
             {featureCards.map((card, i) => (
               <div
                 key={i}
-                className="text-center p-6 bg-slate-700/60 rounded-lg border border-purple-500/30"
+                className="flex h-full flex-col text-center p-6 bg-slate-700/60 rounded-lg border border-purple-500/30"
               >
-                <div className="text-4xl mb-4">{card.icon}</div>
                 <h3 className="text-xl font-semibold text-primary-400 mb-2">
                   {card.title}
                 </h3>
-                <p className="text-slate-200">{card.description}</p>
+                <p className="text-slate-200 whitespace-pre-line grow">
+                  {card.description}
+                </p>
+                <div className="text-4xl mt-4 pt-2">{card.icon}</div>
               </div>
             ))}
           </div>

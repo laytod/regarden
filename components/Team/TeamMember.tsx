@@ -51,7 +51,7 @@ export default function TeamMember({ member }: TeamMemberProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </summary>
-          <p className="text-slate-200 mt-3 leading-relaxed pl-0">{member.bio}</p>
+          <p className="text-slate-200 mt-3 leading-relaxed pl-0 whitespace-pre-line">{member.bio}</p>
         </details>
 
         {member.name !== 'Tricia' && (

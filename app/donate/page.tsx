@@ -85,7 +85,10 @@ export default function Donate() {
         </div>
       )}
 
-      <section className="bg-slate-700/60 p-8 rounded-lg shadow-lg border border-purple-500/30">
+      <section
+        id="donate"
+        className="scroll-mt-24 bg-slate-700/60 p-8 rounded-lg shadow-lg border border-purple-500/30"
+      >
         <h2 className="text-3xl font-semibold text-primary-400 mb-4">
           {donationSection.heading}
         </h2>
