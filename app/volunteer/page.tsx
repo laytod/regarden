@@ -17,7 +17,7 @@ export default function Volunteer() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="mb-6">
+      <div className="mb-8">
         <h1 className="text-5xl font-bold text-primary-400 mb-2 text-center">
           {pageTitle}
         </h1>
@@ -26,6 +26,17 @@ export default function Volunteer() {
         )}
         <p className="text-slate-200 text-lg">{description}</p>
       </div>
+
+      <section
+        id="apply"
+        className="scroll-mt-24 bg-slate-700/60 p-8 rounded-lg shadow-lg border border-purple-500/30 mb-12"
+      >
+        <h2 className="text-3xl font-semibold text-primary-400 mb-4">
+          {applySection.heading}
+        </h2>
+        <p className="text-slate-200 mb-4">{applySection.description}</p>
+        <VolunteerForm />
+      </section>
 
       <section className="mb-12 relative rounded-lg overflow-hidden">
         {backgroundImage && (
@@ -74,17 +85,6 @@ export default function Volunteer() {
             )}
           </div>
         </div>
-      </section>
-
-      <section
-        id="apply"
-        className="scroll-mt-24 bg-slate-700/60 p-8 rounded-lg shadow-lg border border-purple-500/30"
-      >
-        <h2 className="text-3xl font-semibold text-primary-400 mb-4">
-          {applySection.heading}
-        </h2>
-        <p className="text-slate-200 mb-4">{applySection.description}</p>
-        <VolunteerForm />
       </section>
     </div>
   )

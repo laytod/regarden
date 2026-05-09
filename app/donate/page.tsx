@@ -19,6 +19,17 @@ export default function Donate() {
         <h1 className="text-5xl font-bold text-primary-400 mb-6">{pageTitle}</h1>
       </div>
 
+      <section
+        id="donate"
+        className="scroll-mt-24 bg-slate-700/60 p-8 rounded-lg shadow-lg border border-purple-500/30 mb-12"
+      >
+        <h2 className="text-3xl font-semibold text-primary-400 mb-4">
+          {donationSection.heading}
+        </h2>
+        <p className="text-slate-200 mb-6">{donationSection.description}</p>
+        <DonateForm />
+      </section>
+
       <section className="mb-12 relative rounded-lg overflow-hidden">
         {heroImage && (
           <div className="relative min-h-[34vh] w-full md:min-h-0 md:aspect-video overflow-hidden">
@@ -27,7 +38,6 @@ export default function Donate() {
               alt="ReGarden community garden"
               fill
               className="object-cover"
-              priority
               sizes="(max-width: 768px) 100vw, 896px"
             />
             {/* Mobile: overlay with heading + description only */}
@@ -84,17 +94,6 @@ export default function Donate() {
           </div>
         </div>
       )}
-
-      <section
-        id="donate"
-        className="scroll-mt-24 bg-slate-700/60 p-8 rounded-lg shadow-lg border border-purple-500/30"
-      >
-        <h2 className="text-3xl font-semibold text-primary-400 mb-4">
-          {donationSection.heading}
-        </h2>
-        <p className="text-slate-200 mb-6">{donationSection.description}</p>
-        <DonateForm />
-      </section>
     </div>
   )
 }
