@@ -54,7 +54,7 @@ export default function TeamMember({ member }: TeamMemberProps) {
           <p className="text-slate-200 mt-3 leading-relaxed pl-0 whitespace-pre-line">{member.bio}</p>
         </details>
 
-        {member.name !== 'Tricia' && (
+        {member.role !== 'Co-founder' && (
         <div className="border-t border-purple-500/30 pt-4">
           <h4 className="text-sm font-semibold text-purple-300 mb-3">Contact Information</h4>
           <div className="space-y-2 text-sm text-slate-200">
